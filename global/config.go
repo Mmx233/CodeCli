@@ -13,7 +13,7 @@ import (
 var Config models.Config
 
 func init() {
-	home, e := homedir.Expand("~/.CodeCli.yaml")
+	home, e := homedir.Dir()
 	if e != nil {
 		log.Fatalln(e)
 	}

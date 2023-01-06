@@ -3,16 +3,12 @@ package cmd
 import (
 	"os/exec"
 	"runtime"
-	"syscall"
 )
 
 var ideaExec func(name string, args ...string) error
 
 func defaultExec(name string, args ...string) error {
 	cmd := exec.Command(name, args...)
-	cmd.SysProcAttr = &syscall.SysProcAttr{
-		HideWindow: true,
-	}
 	return cmd.Start()
 }
 func windowsExec(name string, args ...string) error {

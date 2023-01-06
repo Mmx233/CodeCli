@@ -11,6 +11,5 @@ type Default struct {
 }
 
 type Storage struct {
-	ProjectDir   string `yaml:"projectDir"`
-	AutoClassify bool   `yaml:"autoClassify"`
+	ProjectDir string `yaml:"projectDir"`
 }

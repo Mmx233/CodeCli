@@ -31,9 +31,6 @@ func init() {
 	}
 }
 
-func Goland(path string) error {
-	return ideaExec("goland", path)
-}
-func Webstorm(path string) error {
-	return ideaExec("webstorm", path)
+func OpenIdea(idea, projectPath string) error {
+	return ideaExec(idea, projectPath)
 }

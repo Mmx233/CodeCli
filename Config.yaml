@@ -1,5 +1,0 @@
-default:
-    gitSite: github.com
-    username: "Mmx233"
-storage:
-    projectDir: ~/project

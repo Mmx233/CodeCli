@@ -6,6 +6,7 @@ import (
 	"github.com/Mmx233/CodeCli/pkg/file"
 	"github.com/Mmx233/CodeCli/util"
 	"github.com/Mmx233/tool"
+	"os"
 	"strings"
 )
 
@@ -28,11 +29,18 @@ func Open(addr string) error {
 		return util.ErrUnknownInput
 	}
 
-	projectName := strings.Split(addr, "/")[2]
-	projectPath := file.JoinPath(global.Config.Storage.ProjectDir, projectName)
+	split := strings.Split(addr, "/")
+	projectDir := file.JoinPath(append([]string{global.Config.Storage.ProjectDir}, split[:2]...)...)
+
+	e := os.MkdirAll(projectDir, 0600)
+	if e != nil {
+		return e
+	}
+
+	projectPath := file.JoinPath(projectDir, split[2])
 
 	if !tool.File.Exists(projectPath) {
-		if e := cmd.Clone("https://"+addr+".git", projectPath); e != nil {
+		if e = cmd.Clone("https://"+addr+".git", projectPath); e != nil {
 			return e
 		}
 	}

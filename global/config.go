@@ -4,10 +4,8 @@ import (
 	"github.com/Mmx233/CodeCli/global/models"
 	"github.com/Mmx233/CodeCli/pkg/file"
 	"github.com/Mmx233/config"
-	"github.com/Mmx233/tool"
 	"github.com/mitchellh/go-homedir"
 	"log"
-	"os"
 )
 
 var Config models.Config
@@ -31,11 +29,5 @@ func init() {
 	})
 	if e = c.Load(); e != nil {
 		log.Fatalln(e)
-	}
-
-	if !tool.File.Exists(Config.Storage.ProjectDir) {
-		if e = os.Mkdir(Config.Storage.ProjectDir, 0600); e != nil {
-			log.Fatalln(e)
-		}
 	}
 }

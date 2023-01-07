@@ -48,5 +48,5 @@ func Set(field, value string) error {
 		}
 	}
 	rv.SetString(fieldValue)
-	return nil
+	return global.ConfigLoader.Save()
 }

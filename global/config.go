@@ -8,6 +8,7 @@ import (
 	"log"
 )
 
+var ConfigLoader *config.Config
 var Config models.Config
 
 func init() {
@@ -15,7 +16,7 @@ func init() {
 	if e != nil {
 		log.Fatalln(e)
 	}
-	c := config.NewConfig(&config.Options{
+	ConfigLoader = config.NewConfig(&config.Options{
 		Path:   file.JoinPath(home, ".CodeCli.yaml"),
 		Config: &Config,
 		Default: &models.Config{
@@ -28,7 +29,7 @@ func init() {
 			},
 		},
 	})
-	if e = c.Load(); e != nil {
+	if e = ConfigLoader.Load(); e != nil {
 		log.Fatalln(e)
 	}
 }

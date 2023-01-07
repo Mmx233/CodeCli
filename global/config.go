@@ -30,6 +30,10 @@ func init() {
 		},
 	})
 	if e = ConfigLoader.Load(); e != nil {
-		log.Fatalln(e)
+		if e == config.IsNewConfig {
+			log.Println(e.Error())
+		} else {
+			log.Fatalln(e)
+		}
 	}
 }

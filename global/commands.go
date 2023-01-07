@@ -25,7 +25,7 @@ func init() {
 	Commands.Cmd.Arg("addr", "Project addr.").Required().StringVar(&Commands.Cmd.Addr)
 
 	Commands.Config.CmdClause = Commands.App.Command("config", "Write configs.")
-	Commands.Config.Flag("list", "List all configs.").Short('l').BoolVar(&Commands.Config.List)
+	Commands.Config.List.CmdClause = Commands.Config.Command("list", "List all configs.")
 	Commands.Config.Set.CmdClause = Commands.Config.Command("set", "Set config.").Default()
 	Commands.Config.Set.Arg("field", "Field of config.").Required().StringVar(&Commands.Config.Set.Field)
 	Commands.Config.Set.Arg("value", "Value of field.").StringVar(&Commands.Config.Set.Value)

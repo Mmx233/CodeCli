@@ -23,13 +23,8 @@ func main() {
 			e = project.OpenCmd(global.Commands.Cmd.Addr)
 		case global.Commands.Config.Set.FullCommand():
 			e = config.Set(global.Commands.Config.Set.Field, global.Commands.Config.Set.Value)
-			fallthrough
-		case global.Commands.Config.FullCommand():
-			if global.Commands.Config.List {
-				if e := config.List(); e != nil {
-					log.Printf("warning: list config failed: %v\n", e)
-				}
-			}
+		case global.Commands.Config.List.FullCommand():
+			e = config.List()
 		}
 	}
 	if e != nil {

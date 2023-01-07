@@ -14,7 +14,7 @@ func List() error {
 	if e != nil {
 		return e
 	}
-	fmt.Println(string(d))
+	fmt.Printf(string(d))
 	return nil
 }
 

@@ -32,9 +32,13 @@ storage:
 
 ```shell
 code #对当前目录执行打开项目
+
 code github.com/Mmx233/CodeCli #打开指定项目
-code Mmx233/CodeCli #同上
-code CodeCli #同上
+#其他相同作用命令
+code Mmx233/CodeCli
+code CodeCli
+
+code CodeCli --idea webstorm #指定 webstorm 打开该项目
 ```
 
 ### 清理项目
@@ -46,11 +50,24 @@ code clear
 code clear -t 1000h #指定闲置时间
 ```
 
-### 打开目标项目命令行
+### 打开目标项目命令行窗口
 
 ```shell
 code cmd github.com/Mmx233/CodeCli
 code cmd CodeCli
+```
+
+### 配置 CodeCli
+
+```shell
+code config list #列出所有配置
+
+code config default.username=Mmx233 #修改设置
+#其他相同作用命令
+code config default username Mmx233
+code config set default.username=Mmx233
+
+code config unset default.username #清除设置
 ```
 
 ### 全部用法
@@ -69,7 +86,7 @@ Commands:
   help [<command>...]
     Show help.
 
-  project* <addr>
+  project* [<flags>] <addr>
     Open projects.
 
   clear [<flags>] [<duration>]
@@ -77,4 +94,13 @@ Commands:
 
   cmd <addr>
     Open project terminal.
+
+  config list
+    List all configs.
+
+  config set* <field> [<value>]
+    Set config.
+    
+  config unset <field>
+    Clear config.
 ```

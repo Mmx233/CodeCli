@@ -18,5 +18,6 @@ type ProjectCommand struct {
 
 type ClearCommand struct {
 	*kingpin.CmdClause
-	Duration *time.Duration
+	Duration time.Duration
+	Yes      bool
 }

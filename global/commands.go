@@ -15,7 +15,8 @@ func init() {
 	Commands.Project.Arg("addr", "Project addr.").Required().HintOptions("github.com/Mmx233/CodeCli").StringVar(&Commands.Project.Addr)
 
 	Commands.Clear.CmdClause = Commands.App.Command("clear", "Auto clear outdated projects.")
-	Commands.Clear.Duration = Commands.Clear.Arg("duration", "Clean up projects that have not been used for how long.").Default("1440h").Duration()
+	Commands.Clear.Arg("duration", "Clean up projects that have not been used for how long.").Default("1440h").DurationVar(&Commands.Clear.Duration)
+	Commands.Clear.Flag("yes", "Confirm delete.").Short('y').BoolVar(&Commands.Clear.Yes)
 }
 
 func ParseFlags(args []string) string {

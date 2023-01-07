@@ -8,8 +8,9 @@ import (
 var Commands models.Commands
 
 func init() {
-	kingpin.Version(Version)
 	Commands.App = kingpin.New("code", "A project manager command line tool.")
+	Commands.App.Version(Version)
+	Commands.App.VersionFlag.Short('v')
 	Commands.Project.CmdClause = Commands.App.Command("project", "Open projects.").Default()
 	Commands.Project.Arg("addr", "Project addr.").Required().HintOptions("github.com/Mmx233/CodeCli").StringVar(&Commands.Project.Addr)
 

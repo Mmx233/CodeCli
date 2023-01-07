@@ -1,6 +1,7 @@
 package file
 
 import (
+	"os"
 	"path"
 	"runtime"
 	"strings"
@@ -18,4 +19,22 @@ func init() {
 
 func windowsPathJoin(el ...string) string {
 	return strings.Join(el, `\`)
+}
+
+func ScanDir(path string, f func(path string, info os.FileInfo) error) error {
+	entries, e := os.ReadDir(path)
+	if e != nil {
+		return e
+	}
+	for _, entry := range entries {
+		var info os.FileInfo
+		info, e = entry.Info()
+		if e != nil {
+			return e
+		}
+		if e = f(path, info); e != nil {
+			return e
+		}
+	}
+	return nil
 }

@@ -1,3 +1,3 @@
 package global
 
-const Version = "error unknown version"
+var Version = "error unknown version"

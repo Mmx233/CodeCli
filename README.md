@@ -18,6 +18,7 @@
 default:
     gitSite: github.com
     username: "" #默认 clone 用户名
+    cmdProgram: "powershell" #cmd 指令默认 cmd 程序
 storage:
     projectDir: "" #项目文件存储路径
 ```
@@ -26,9 +27,53 @@ storage:
 
 以 `default.gitSite=github.com` `default.username=Mmx233` 为例
 
+### 打开项目
+
 ```shell
 code #对当前目录执行打开项目
 code github.com/Mmx233/CodeCli #打开指定项目
 code Mmx233/CodeCli #同上
 code CodeCli #同上
+```
+
+### 清理项目
+
+默认清理 60 天未修改的项目，有未提交代码的项目将被跳过
+
+```shell
+code clear
+code clear -t 1000h #指定闲置时间
+```
+
+### 打开目标项目命令行
+
+```shell
+code cmd github.com/Mmx233/CodeCli
+code cmd CodeCli
+```
+
+### 全部用法
+
+```shell
+usage: code [<flags>] <command> [<args> ...]
+
+A project manager command line tool.
+
+Flags:
+  -h, --help     Show context-sensitive help (also try --help-long and
+                 --help-man).
+  -v, --version  Show application version.
+
+Commands:
+  help [<command>...]
+    Show help.
+
+  project* <addr>
+    Open projects.
+
+  clear [<flags>] [<duration>]
+    Auto clear outdated projects.
+
+  cmd <addr>
+    Open project terminal.
 ```

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Mmx233/CodeCli/global"
 	"github.com/Mmx233/CodeCli/pkg/project"
 	"log"
 	"os"
@@ -12,7 +13,12 @@ func main() {
 	case 1:
 		e = project.OpenProject(".")
 	default:
-		e = project.Open(os.Args[1])
+		switch global.ParseFlags(os.Args[1:]) {
+		case global.Commands.Project.FullCommand():
+			e = project.Open(global.Commands.Project.Addr)
+		case global.Commands.Clear.FullCommand():
+			e = project.Clear(global.Commands.Clear.Duration)
+		}
 	}
 	if e != nil {
 		log.Fatalln(e)

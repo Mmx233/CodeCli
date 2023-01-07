@@ -9,6 +9,7 @@ type Commands struct {
 	App     *kingpin.Application
 	Project ProjectCommand
 	Clear   ClearCommand
+	Cmd     CmdCommand
 }
 
 type ProjectCommand struct {
@@ -20,4 +21,9 @@ type ClearCommand struct {
 	*kingpin.CmdClause
 	Duration time.Duration
 	Yes      bool
+}
+
+type CmdCommand struct {
+	*kingpin.CmdClause
+	Addr string
 }

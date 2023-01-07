@@ -20,7 +20,8 @@ func init() {
 		Config: &Config,
 		Default: &models.Config{
 			Default: models.Default{
-				GitSite: "github.com",
+				GitSite:    "github.com",
+				CmdProgram: "powershell",
 			},
 			Storage: models.Storage{
 				ProjectDir: file.JoinPath(home, "project"),

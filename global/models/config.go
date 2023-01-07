@@ -6,8 +6,9 @@ type Config struct {
 }
 
 type Default struct {
-	GitSite  string `yaml:"gitSite"`
-	Username string `yaml:"username"`
+	GitSite    string `yaml:"gitSite"`
+	Username   string `yaml:"username"`
+	CmdProgram string `yaml:"cmdProgram"`
 }
 
 type Storage struct {

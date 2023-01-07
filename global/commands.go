@@ -11,12 +11,17 @@ func init() {
 	Commands.App = kingpin.New("code", "A project manager command line tool.")
 	Commands.App.Version(Version)
 	Commands.App.VersionFlag.Short('v')
+	Commands.App.HelpFlag.Short('h')
+
 	Commands.Project.CmdClause = Commands.App.Command("project", "Open projects.").Default()
 	Commands.Project.Arg("addr", "Project addr.").Required().HintOptions("github.com/Mmx233/CodeCli").StringVar(&Commands.Project.Addr)
 
 	Commands.Clear.CmdClause = Commands.App.Command("clear", "Auto clear outdated projects.")
 	Commands.Clear.Arg("duration", "Clean up projects that have not been used for how long.").Default("1440h").DurationVar(&Commands.Clear.Duration)
 	Commands.Clear.Flag("yes", "Confirm delete.").Short('y').BoolVar(&Commands.Clear.Yes)
+
+	Commands.Cmd.CmdClause = Commands.App.Command("cmd", "Open project terminal.")
+	Commands.Cmd.Arg("addr", "Project addr.").Required().StringVar(&Commands.Cmd.Addr)
 }
 
 func ParseFlags(args []string) string {

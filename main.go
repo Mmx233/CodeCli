@@ -21,10 +21,12 @@ func main() {
 			e = project.Clear(global.Commands.Clear.Duration, global.Commands.Clear.Yes)
 		case global.Commands.Cmd.FullCommand():
 			e = project.OpenCmd(global.Commands.Cmd.Addr)
-		case global.Commands.Config.Set.FullCommand():
-			e = config.Set(global.Commands.Config.Set.Field, global.Commands.Config.Set.Value)
 		case global.Commands.Config.List.FullCommand():
 			e = config.List()
+		case global.Commands.Config.Set.FullCommand():
+			e = config.Set(global.Commands.Config.Set.Field, global.Commands.Config.Set.Value)
+		case global.Commands.Config.Unset.FullCommand():
+			e = config.Unset(global.Commands.Config.Unset.Field)
 		}
 	}
 	if e != nil {

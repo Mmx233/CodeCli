@@ -32,8 +32,9 @@ type CmdCommand struct {
 
 type ConfigCommand struct {
 	*kingpin.CmdClause
-	List ConfigListCommand
-	Set  ConfigSetCommand
+	List  ConfigListCommand
+	Set   ConfigSetCommand
+	Unset ConfigUnsetCommand
 }
 
 type ConfigListCommand struct {
@@ -44,4 +45,9 @@ type ConfigSetCommand struct {
 	*kingpin.CmdClause
 	Field string
 	Value string
+}
+
+type ConfigUnsetCommand struct {
+	*kingpin.CmdClause
+	Field string
 }

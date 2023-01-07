@@ -18,6 +18,26 @@ func List() error {
 	return nil
 }
 
+func loadField(fieldRaw string) (reflect.Value, error) {
+	rv := reflect.ValueOf(&global.Config).Elem()
+	for _, field := range strings.Split(fieldRaw, ".") {
+		rt := rv.Type()
+		var hit bool
+		for i := 0; i < rv.NumField(); i++ {
+			rtf := rt.Field(i)
+			if field == rtf.Name || field == rtf.Tag.Get("yaml") {
+				hit = true
+				rv = rv.Field(i)
+				break
+			}
+		}
+		if !hit {
+			return rv, util.ErrIllegalInput
+		}
+	}
+	return rv, nil
+}
+
 func Set(field, value string) error {
 	raw := strings.Split(field, "=")
 	if len(raw) != 2 {
@@ -30,23 +50,20 @@ func Set(field, value string) error {
 		}
 	}
 
-	fieldNames, fieldValue := strings.Split(raw[0], "."), raw[1]
-	rv := reflect.ValueOf(&global.Config).Elem()
-	for _, field = range fieldNames {
-		rt := rv.Type()
-		var hit bool
-		for i := 0; i < rv.NumField(); i++ {
-			rtf := rt.Field(i)
-			if field == rtf.Name || field == rtf.Tag.Get("yaml") {
-				hit = true
-				rv = rv.Field(i)
-				break
-			}
-		}
-		if !hit {
-			return util.ErrIllegalInput
-		}
+	fieldName, fieldValue := raw[0], raw[1]
+	rv, e := loadField(fieldName)
+	if e != nil {
+		return e
 	}
 	rv.SetString(fieldValue)
+	return global.ConfigLoader.Save()
+}
+
+func Unset(field string) error {
+	rv, e := loadField(field)
+	if e != nil {
+		return e
+	}
+	rv.SetString("")
 	return global.ConfigLoader.Save()
 }

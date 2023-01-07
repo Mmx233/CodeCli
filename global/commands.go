@@ -29,6 +29,8 @@ func init() {
 	Commands.Config.Set.CmdClause = Commands.Config.Command("set", "Set config.").Default()
 	Commands.Config.Set.Arg("field", "Field of config.").Required().StringVar(&Commands.Config.Set.Field)
 	Commands.Config.Set.Arg("value", "Value of field.").StringVar(&Commands.Config.Set.Value)
+	Commands.Config.Unset.CmdClause = Commands.Config.Command("unset", "Clear config.")
+	Commands.Config.Unset.Arg("field", "Field to clear.").Required().StringVar(&Commands.Config.Unset.Field)
 }
 
 func ParseFlags(args []string) string {

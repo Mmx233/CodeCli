@@ -19,6 +19,7 @@ default:
     gitSite: github.com
     username: "" #默认 clone 用户名
     cmdProgram: "powershell" #cmd 指令默认 cmd 程序
+    idea: "" #默认 idea，无法判断项目类型时使用。填入 idea 二进制文件名称，如：goland、webstorm、studio
 storage:
     projectDir: "" #项目文件存储路径
 ```

@@ -2,12 +2,12 @@ package util
 
 import "errors"
 
-type ErrEmptyDir struct {
+type ErrUnsupportedProjectOrEmptyDir struct {
 	Path string
 }
 
-func (a ErrEmptyDir) Error() string {
-	return "error empty project dir " + a.Path
+func (a ErrUnsupportedProjectOrEmptyDir) Error() string {
+	return "error unsupported project or empty project dir " + a.Path
 }
 
 var (

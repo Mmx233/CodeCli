@@ -18,5 +18,5 @@ func IdeaSelect(dir string) (string, error) {
 	if tool.File.Exists(path.Join(dir, "go.mod")) {
 		return Goland, nil
 	}
-	return "", util.ErrEmptyDir{Path: dir}
+	return "", util.ErrUnsupportedProjectOrEmptyDir{Path: dir}
 }

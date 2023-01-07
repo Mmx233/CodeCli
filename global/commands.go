@@ -15,6 +15,7 @@ func init() {
 
 	Commands.Project.CmdClause = Commands.App.Command("project", "Open projects.").Default()
 	Commands.Project.Arg("addr", "Project addr.").Required().HintOptions("github.com/Mmx233/CodeCli").StringVar(&Commands.Project.Addr)
+	Commands.Project.Flag("idea", "Specify an idea.").HintOptions("goland", "webstorm").StringVar(&Commands.Project.Idea)
 
 	Commands.Clear.CmdClause = Commands.App.Command("clear", "Auto clear outdated projects.")
 	Commands.Clear.Arg("duration", "Clean up projects that have not been used for how long.").Default("1440h").DurationVar(&Commands.Clear.Duration)

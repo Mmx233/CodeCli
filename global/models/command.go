@@ -15,6 +15,7 @@ type Commands struct {
 type ProjectCommand struct {
 	*kingpin.CmdClause
 	Addr string
+	Idea string
 }
 
 type ClearCommand struct {

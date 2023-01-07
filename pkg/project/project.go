@@ -14,9 +14,13 @@ func Open(addr string) error {
 }
 
 func OpenProject(path string) error {
-	idea, e := IdeaSelect(path)
-	if e != nil {
-		return e
+	var idea = global.Commands.Project.Idea
+	if idea == "" {
+		var e error
+		idea, e = IdeaSelect(path)
+		if e != nil {
+			return e
+		}
 	}
 	return cmd.OpenIdea(idea, path)
 }

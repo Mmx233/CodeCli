@@ -9,6 +9,7 @@ type Default struct {
 	GitSite    string `yaml:"gitSite"`
 	Username   string `yaml:"username"`
 	CmdProgram string `yaml:"cmdProgram"`
+	Idea       string `yaml:"idea"`
 }
 
 type Storage struct {

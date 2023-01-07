@@ -10,6 +10,7 @@ type Commands struct {
 	Project ProjectCommand
 	Clear   ClearCommand
 	Cmd     CmdCommand
+	Config  ConfigCommand
 }
 
 type ProjectCommand struct {
@@ -27,4 +28,20 @@ type ClearCommand struct {
 type CmdCommand struct {
 	*kingpin.CmdClause
 	Addr string
+}
+
+type ConfigCommand struct {
+	*kingpin.CmdClause
+	List ConfigListCommand
+	Set  ConfigSetCommand
+}
+
+type ConfigListCommand struct {
+	*kingpin.CmdClause
+}
+
+type ConfigSetCommand struct {
+	*kingpin.CmdClause
+	Field string
+	Value string
 }

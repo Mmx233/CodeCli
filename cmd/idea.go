@@ -3,7 +3,6 @@ package cmd
 import (
 	"os/exec"
 	"runtime"
-	"syscall"
 )
 
 type (
@@ -33,9 +32,6 @@ func (a defaultExec) Command(name string, args ...string) error {
 func (a defaultExec) Background(name string, args ...string) error {
 	cmd := exec.Command(name, args...)
 	cmd.Dir = a.dir
-	cmd.SysProcAttr = &syscall.SysProcAttr{
-		HideWindow: true,
-	}
 	return cmd.Run()
 }
 func (a defaultExec) SetDir(dir string) ExecInterface {
@@ -71,9 +67,6 @@ func (a windowsExec) Background(name string, args ...string) error {
 	argList = append(argList, "-WindowStyle", "Hidden")
 	cmd := exec.Command("powershell", argList...)
 	cmd.Dir = a.dir
-	cmd.SysProcAttr = &syscall.SysProcAttr{
-		HideWindow: true,
-	}
 	return cmd.Start()
 }
 func (a windowsExec) SetDir(dir string) ExecInterface {

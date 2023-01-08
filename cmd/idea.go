@@ -3,6 +3,7 @@ package cmd
 import (
 	"os/exec"
 	"runtime"
+	"syscall"
 )
 
 type (
@@ -30,7 +31,12 @@ func (a defaultExec) Command(name string, args ...string) error {
 	return cmd.Run()
 }
 func (a defaultExec) Background(name string, args ...string) error {
-	return a.Command(name, args...)
+	cmd := exec.Command(name, args...)
+	cmd.Dir = a.dir
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		HideWindow: true,
+	}
+	return cmd.Run()
 }
 func (a defaultExec) SetDir(dir string) ExecInterface {
 	return defaultExec{dir: dir}
@@ -41,14 +47,34 @@ type windowsExec struct {
 }
 
 func (a windowsExec) Command(name string, args ...string) error {
-	cmd := exec.Command("cmd", append([]string{
-		"/c", "start", name,
-	}, args...)...)
+	var argList = []string{
+		"-NoProfile", "-Command", "Start-Process",
+		name,
+	}
+	if len(args) != 0 {
+		argList = append(argList, "-ArgumentList")
+		argList = append(argList, args...)
+	}
+	cmd := exec.Command("powershell", argList...)
 	cmd.Dir = a.dir
-	return cmd.Start()
+	return cmd.Run()
 }
 func (a windowsExec) Background(name string, args ...string) error {
-	return a.Command("/B", append([]string{name}, args...)...)
+	var argList = []string{
+		"-WindowStyle", "Hidden", "-NoProfile", "-Command", "Start-Process",
+		name,
+	}
+	if len(args) != 0 {
+		argList = append(argList, "-ArgumentList")
+		argList = append(argList, args...)
+	}
+	argList = append(argList, "-WindowStyle", "Hidden")
+	cmd := exec.Command("powershell", argList...)
+	cmd.Dir = a.dir
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		HideWindow: true,
+	}
+	return cmd.Start()
 }
 func (a windowsExec) SetDir(dir string) ExecInterface {
 	return windowsExec{dir: dir}

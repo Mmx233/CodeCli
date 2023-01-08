@@ -5,13 +5,20 @@ import (
 	"runtime"
 )
 
-type ExecInterface interface {
-	Command(name string, args ...string) error
-	Background(name string, args ...string) error
-	SetDir(dir string) ExecInterface
-}
+type (
+	ExecInterface interface {
+		Command(name string, args ...string) error
+		Background(name string, args ...string) error
+		SetDir(dir string) ExecInterface
+	}
+)
 
-var Exec ExecInterface
+var (
+	ideaCommand = func(idea string) string {
+		return idea
+	}
+	Exec ExecInterface
+)
 
 type defaultExec struct {
 	dir string
@@ -51,13 +58,16 @@ func init() {
 	switch runtime.GOOS {
 	case "windows":
 		Exec = windowsExec{}
+		ideaCommand = func(idea string) string {
+			return idea + "64.exe"
+		}
 	default:
 		Exec = defaultExec{}
 	}
 }
 
 func OpenIdea(idea, projectPath string) error {
-	return Exec.Background(idea, projectPath)
+	return Exec.Background(ideaCommand(idea), projectPath)
 }
 
 func RunCmd(path, program string) error {

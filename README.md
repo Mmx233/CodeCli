@@ -62,6 +62,14 @@ code cmd github.com/Mmx233/CodeCli
 code cmd CodeCli
 ```
 
+### 在浏览器中打开项目仓库地址
+
+目前仅支持 windows
+
+```shell
+code browser Mmx233/CodeCli
+```
+
 ### 配置 CodeCli
 
 ```shell
@@ -78,35 +86,53 @@ code config unset default.username #清除设置
 ### 全部用法
 
 ```shell
-~$ code -h
+~$ code --help-long
 usage: code [<flags>] <command> [<args> ...]
 
 A project manager command line tool.
 
 Flags:
-  -h, --help     Show context-sensitive help (also try --help-long and
-                 --help-man).
-  -v, --version  Show application version.
+  -h, --help       Show context-sensitive help (also try --help-long and
+                   --help-man).
+  -v, --version    Show application version.
+      --idea=IDEA  Specify an idea.
+
+Args:
+  <addr>  Project addr.
 
 Commands:
   help [<command>...]
     Show help.
 
-  project* [<flags>] <addr>
+
+  project [<flags>] <addr>
     Open projects.
+
+    --idea=IDEA  Specify an idea.
 
   clear [<flags>] [<addr>...]
     Auto clear outdated projects.
 
+    -t, --time=1440h  Clean up projects that have not been used for how long.
+    -y, --yes         Confirm delete.
+    -f, --force       Force delete, skip confirm and checks.
+
   cmd <addr>
     Open project terminal.
+
 
   config list
     List all configs.
 
-  config set* <field> [<value>]
+
+  config set <field> [<value>]
     Set config.
+
 
   config unset <field>
     Clear config.
+
+
+  browser <addr>
+    Open project in browser.
 ```

@@ -6,26 +6,25 @@ import (
 	"os"
 )
 
-func Clone(path, addr string) error {
-	if !tool.File.Exists(path) {
-		return cmd.Clone("https://"+addr+".git", path)
-	}
-	return nil
+func Clone(path, url string) error {
+	return cmd.Clone(url, path)
 }
 
-func PrepareProjectFiles(addr string) (fullAddr string, dir string, path string, e error) {
-	fullAddr, e = CompleteAddr(addr)
+func PrepareProjectFiles(addr string) (url string, dir string, path string, e error) {
+	url, e = CompleteAddrToUrl(addr)
 	if e != nil {
 		return
 	}
 
-	dir, path = ConvertAddrToPath(fullAddr)
+	dir, path = ConvertUrlToPath(url)
 	if e = os.MkdirAll(dir, 0600); e != nil {
 		return
 	}
 
-	if e = Clone(path, fullAddr); e != nil {
-		return
+	if !tool.File.Exists(path) {
+		if e = Clone(path, url); e != nil {
+			return
+		}
 	}
 	return
 }

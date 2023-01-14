@@ -7,8 +7,14 @@ import (
 	"strings"
 )
 
-// CompleteAddr 填充简写为完整 addr
-func CompleteAddr(addr string) (string, error) {
+// CompleteAddrToUrl 填充简写为完整 addr
+func CompleteAddrToUrl(addr string) (string, error) {
+	if strings.Contains(addr, "https://") {
+		if !strings.HasSuffix(addr, ".git") {
+			addr = addr + ".git"
+		}
+		return addr, nil
+	}
 	switch len(strings.Split(addr, "/")) {
 	case 1:
 		if global.Config.Default.Username == "" {
@@ -26,10 +32,12 @@ func CompleteAddr(addr string) (string, error) {
 	default:
 		return "", util.ErrUnknownInput
 	}
-	return addr, nil
+	return "https://" + addr + ".git", nil
 }
 
-func ConvertAddrToPath(addr string) (dir string, path string) {
+func ConvertUrlToPath(addr string) (dir string, path string) {
+	addr = strings.TrimLeft(addr, "https://")
+	addr = strings.TrimRight(addr, ".git")
 	split := strings.Split(addr, "/")
 	dir = file.JoinPath(append([]string{global.Config.Storage.ProjectDir}, split[:2]...)...)
 	path = file.JoinPath(dir, split[2])

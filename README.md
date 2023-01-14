@@ -35,6 +35,7 @@ code #对当前目录执行打开项目
 
 code github.com/Mmx233/CodeCli #打开指定项目
 #其他相同作用命令
+code https://github.com/Mmx233/CodeCli
 code Mmx233/CodeCli
 code CodeCli
 

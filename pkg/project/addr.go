@@ -7,39 +7,40 @@ import (
 	"strings"
 )
 
-// CompleteAddrToUrl 填充简写为完整 addr
-func CompleteAddrToUrl(addr string) (string, error) {
+// CompleteAddrToProject 填充简写为完整 addr
+func CompleteAddrToProject(addr string) (*Project, error) {
 	if strings.Contains(addr, "https://") {
-		if !strings.HasSuffix(addr, ".git") {
-			addr = addr + ".git"
-		}
-		return addr, nil
+		addr = strings.TrimLeft(addr, "https://")
+		addr = strings.TrimRight(addr, ".git")
 	}
-	switch len(strings.Split(addr, "/")) {
+	var p Project
+	infos := strings.Split(addr, "/")
+	switch len(infos) {
 	case 1:
 		if global.Config.Default.Username == "" {
-			return "", util.ErrEmptyDefaultUsername
+			return nil, util.ErrEmptyDefaultUsername
+		} else if global.Config.Default.GitSite == "" {
+			return nil, util.ErrEmptyDefaultGitSite
 		}
-		addr = global.Config.Default.Username + "/" + addr
-		fallthrough
+		p.GitSite = global.Config.Default.GitSite
+		p.Username = global.Config.Default.Username
+		p.Repo = infos[0]
 	case 2:
 		if global.Config.Default.GitSite == "" {
-			return "", util.ErrEmptyDefaultGitSite
+			return nil, util.ErrEmptyDefaultGitSite
 		}
-		addr = global.Config.Default.GitSite + "/" + addr
+		p.GitSite = global.Config.Default.GitSite
+		p.Username = infos[0]
+		p.Repo = infos[1]
 	case 3:
-		break
+		p.GitSite = infos[0]
+		p.Username = infos[1]
+		p.Repo = infos[2]
 	default:
-		return "", util.ErrUnknownInput
+		return nil, util.ErrIllegalInput
 	}
-	return "https://" + addr + ".git", nil
-}
 
-func ConvertUrlToPath(addr string) (dir string, path string) {
-	addr = strings.TrimLeft(addr, "https://")
-	addr = strings.TrimRight(addr, ".git")
-	split := strings.Split(addr, "/")
-	dir = file.JoinPath(append([]string{global.Config.Storage.ProjectDir}, split[:2]...)...)
-	path = file.JoinPath(dir, split[2])
-	return
+	p.Dir = file.JoinPath(global.Config.Storage.ProjectDir, p.GitSite, p.Username)
+	p.Path = file.JoinPath(p.Dir, p.Repo)
+	return &p, nil
 }

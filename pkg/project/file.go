@@ -14,21 +14,20 @@ func Clone(path, url string) error {
 	return nil
 }
 
-func LoadProject(addr string) (url string, dir string, path string, e error) {
-	url, e = CompleteAddrToUrl(addr)
+func LoadProject(addr string) (*Project, error) {
+	project, e := CompleteAddrToProject(addr)
 	if e != nil {
-		return
+		return nil, e
 	}
 
-	dir, path = ConvertUrlToPath(url)
-	if e = os.MkdirAll(dir, 0600); e != nil {
-		return
+	if e = os.MkdirAll(project.Dir, 0600); e != nil {
+		return nil, e
 	}
 
-	if !tool.File.Exists(path) {
-		if e = Clone(path, url); e != nil {
-			return
+	if !tool.File.Exists(project.Path) {
+		if e = Clone(project.Path, project.Url()); e != nil {
+			return nil, e
 		}
 	}
-	return
+	return project, nil
 }

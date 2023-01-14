@@ -4,6 +4,8 @@ import (
 	"github.com/Mmx233/CodeCli/cmd"
 	"github.com/Mmx233/tool"
 	"os"
+	"os/exec"
+	"strings"
 )
 
 func Clone(path, url string) error {
@@ -12,6 +14,16 @@ func Clone(path, url string) error {
 		return e
 	}
 	return nil
+}
+
+func CodeUncommitted(path string) (bool, error) {
+	command := exec.Command("git", "status")
+	command.Dir = path
+	r, e := command.Output()
+	if e != nil {
+		return false, e
+	}
+	return !strings.Contains(string(r), "nothing to commit, working tree clean"), nil
 }
 
 func LoadProject(addr string) (*Project, error) {

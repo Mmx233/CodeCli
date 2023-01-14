@@ -24,6 +24,7 @@ type ClearCommand struct {
 	Addresses []string
 	Duration  time.Duration
 	Yes       bool
+	Force     bool
 }
 
 type CmdCommand struct {

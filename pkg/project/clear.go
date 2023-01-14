@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func Clear(t time.Duration, yes bool, addresses ...string) error {
+func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 	var projectPaths []string
 	var e error
 	if len(addresses) != 0 {
@@ -49,27 +49,28 @@ func Clear(t time.Duration, yes bool, addresses ...string) error {
 		}
 	}
 	if len(projectPaths) != 0 {
-		//scan uncommitted repos
-		var projectPure []string
-		var uncommitted bool
-		for _, path := range projectPaths {
-			uncommitted, e = CodeUncommitted(path)
-			if e != nil {
-				log.Printf("warning: %s isn't a git repo: %v.", path, e)
-				continue
-			} else if uncommitted {
-				log.Printf("warning: %s should be deleted but have uncommited codes.", path)
-			} else {
-				projectPure = append(projectPure, path)
+		if !force {
+			//scan uncommitted repos
+			var projectPure []string
+			var uncommitted bool
+			for _, path := range projectPaths {
+				uncommitted, e = CodeUncommitted(path)
+				if e != nil {
+					log.Printf("warning: %s isn't a git repo: %v.", path, e)
+					continue
+				} else if uncommitted {
+					log.Printf("warning: %s should be deleted but have uncommited codes.", path)
+				} else {
+					projectPure = append(projectPure, path)
+				}
 			}
+			projectPaths = projectPure
 		}
-
-		projectPaths = projectPure
 
 		log.Println("info: following projects is going to be deleted.")
 		fmt.Println(strings.Join(projectPaths, "\n"))
 
-		if !yes {
+		if !yes && !force {
 			fmt.Printf("Do you want to continue? [Y/n]")
 			var input string
 			if _, e = fmt.Scanln(&input); e != nil {

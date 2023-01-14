@@ -20,6 +20,7 @@ func init() {
 	Commands.Clear.CmdClause = Commands.App.Command("clear", "Auto clear outdated projects.")
 	Commands.Clear.Flag("time", "Clean up projects that have not been used for how long.").Short('t').Default("1440h").DurationVar(&Commands.Clear.Duration)
 	Commands.Clear.Flag("yes", "Confirm delete.").Short('y').BoolVar(&Commands.Clear.Yes)
+	Commands.Clear.Flag("force", "Force delete, skip confirm and checks.").Short('f').BoolVar(&Commands.Clear.Force)
 	Commands.Clear.Arg("addr", "Project addr.").StringsVar(&Commands.Clear.Addresses)
 
 	Commands.Cmd.CmdClause = Commands.App.Command("cmd", "Open project terminal.")

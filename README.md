@@ -44,12 +44,15 @@ code CodeCli --idea webstorm #指定 webstorm 打开该项目
 
 ### 清理项目
 
-默认清理 60 天未修改的项目，有未提交代码的项目将被跳过
+默认清理 60 天未修改的项目，默认有未提交代码的项目将被跳过
 
 ```shell
 code clear
 code clear -t 1000h #指定闲置时间
 code clear Mmx233/CodeCli AntherCodeCli #删除指定仓库
+
+code clear -y #跳过删除确认
+code clear -f #即使有未提交代码或非 git 目录也强行删除
 ```
 
 ### 打开目标项目命令行窗口
@@ -75,6 +78,7 @@ code config unset default.username #清除设置
 ### 全部用法
 
 ```shell
+~$ code -h
 usage: code [<flags>] <command> [<args> ...]
 
 A project manager command line tool.

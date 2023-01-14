@@ -7,10 +7,14 @@ import (
 )
 
 func Clone(path, url string) error {
-	return cmd.Clone(url, path)
+	if e := cmd.Clone(url, path); e != nil {
+		_ = os.RemoveAll(path)
+		return e
+	}
+	return nil
 }
 
-func PrepareProjectFiles(addr string) (url string, dir string, path string, e error) {
+func LoadProject(addr string) (url string, dir string, path string, e error) {
 	url, e = CompleteAddrToUrl(addr)
 	if e != nil {
 		return

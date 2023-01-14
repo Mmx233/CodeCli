@@ -24,7 +24,7 @@ func PrepareProjectFiles(addr string) (fullAddr string, dir string, path string,
 		return
 	}
 
-	if e = Clone(path, addr); e != nil {
+	if e = Clone(path, fullAddr); e != nil {
 		return
 	}
 	return

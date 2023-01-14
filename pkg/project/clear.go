@@ -48,25 +48,24 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 			return e
 		}
 	}
-	if len(projectPaths) != 0 {
-		if !force {
-			//scan uncommitted repos
-			var projectPure []string
-			var uncommitted bool
-			for _, path := range projectPaths {
-				uncommitted, e = CodeUncommitted(path)
-				if e != nil {
-					log.Printf("warning: %s isn't a git repo: %v.", path, e)
-					continue
-				} else if uncommitted {
-					log.Printf("warning: %s should be deleted but have uncommited codes.", path)
-				} else {
-					projectPure = append(projectPure, path)
-				}
+	if !force && len(projectPaths) != 0 {
+		//scan uncommitted repos
+		var projectPure []string
+		var uncommitted bool
+		for _, path := range projectPaths {
+			uncommitted, e = CodeUncommitted(path)
+			if e != nil {
+				log.Printf("warning: %s isn't a git repo: %v.", path, e)
+				continue
+			} else if uncommitted {
+				log.Printf("warning: %s should be deleted but have uncommited codes.", path)
+			} else {
+				projectPure = append(projectPure, path)
 			}
-			projectPaths = projectPure
 		}
-
+		projectPaths = projectPure
+	}
+	if len(projectPaths) != 0 {
 		log.Println("info: following projects is going to be deleted.")
 		fmt.Println(strings.Join(projectPaths, "\n"))
 

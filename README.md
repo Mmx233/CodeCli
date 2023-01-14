@@ -49,6 +49,7 @@ code CodeCli --idea webstorm #指定 webstorm 打开该项目
 ```shell
 code clear
 code clear -t 1000h #指定闲置时间
+code clear Mmx233/CodeCli AntherCodeCli #删除指定仓库
 ```
 
 ### 打开目标项目命令行窗口
@@ -90,7 +91,7 @@ Commands:
   project* [<flags>] <addr>
     Open projects.
 
-  clear [<flags>] [<duration>]
+  clear [<flags>] [<addr>...]
     Auto clear outdated projects.
 
   cmd <addr>
@@ -101,7 +102,7 @@ Commands:
 
   config set* <field> [<value>]
     Set config.
-    
+
   config unset <field>
     Clear config.
 ```

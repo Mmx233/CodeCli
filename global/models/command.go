@@ -21,8 +21,9 @@ type ProjectCommand struct {
 
 type ClearCommand struct {
 	*kingpin.CmdClause
-	Duration time.Duration
-	Yes      bool
+	Addresses []string
+	Duration  time.Duration
+	Yes       bool
 }
 
 type CmdCommand struct {

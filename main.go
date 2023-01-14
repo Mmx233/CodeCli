@@ -18,7 +18,8 @@ func main() {
 		case global.Commands.Project.FullCommand():
 			e = project.Open(global.Commands.Project.Addr)
 		case global.Commands.Clear.FullCommand():
-			e = project.Clear(global.Commands.Clear.Duration, global.Commands.Clear.Yes)
+			e = project.Clear(global.Commands.Clear.Duration, global.Commands.Clear.Yes,
+				global.Commands.Clear.Addresses...)
 		case global.Commands.Cmd.FullCommand():
 			e = project.OpenCmd(global.Commands.Cmd.Addr)
 		case global.Commands.Config.List.FullCommand():

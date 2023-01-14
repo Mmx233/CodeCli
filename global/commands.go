@@ -18,8 +18,9 @@ func init() {
 	Commands.Project.Flag("idea", "Specify an idea.").HintOptions("goland", "webstorm").StringVar(&Commands.Project.Idea)
 
 	Commands.Clear.CmdClause = Commands.App.Command("clear", "Auto clear outdated projects.")
-	Commands.Clear.Arg("duration", "Clean up projects that have not been used for how long.").Default("1440h").DurationVar(&Commands.Clear.Duration)
+	Commands.Clear.Flag("time", "Clean up projects that have not been used for how long.").Short('t').Default("1440h").DurationVar(&Commands.Clear.Duration)
 	Commands.Clear.Flag("yes", "Confirm delete.").Short('y').BoolVar(&Commands.Clear.Yes)
+	Commands.Clear.Arg("addr", "Project addr.").StringsVar(&Commands.Clear.Addresses)
 
 	Commands.Cmd.CmdClause = Commands.App.Command("cmd", "Open project terminal.")
 	Commands.Cmd.Arg("addr", "Project addr.").Required().StringVar(&Commands.Cmd.Addr)

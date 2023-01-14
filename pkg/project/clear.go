@@ -11,13 +11,22 @@ import (
 	"time"
 )
 
-func Clear(t time.Duration, yes bool) error {
-	var outdatedProjects []string
-	e := file.ScanDir(global.Config.Storage.ProjectDir, func(path string, info os.FileInfo) error {
-		if !info.IsDir() {
-			return nil
+func Clear(t time.Duration, yes bool, addresses ...string) error {
+	var projectPaths []string
+	var e error
+	if len(addresses) != 0 {
+		for _, addr := range addresses {
+			var project *Project
+			project, e = CompleteAddrToProject(addr)
+			if e != nil {
+				log.Printf("warning: addr %s occur error: %v\n", addr, e)
+				continue
+			}
+			projectPaths = append(projectPaths, project.Path)
 		}
-		return file.ScanDir(file.JoinPath(path, info.Name()), func(path string, info os.FileInfo) error {
+	} else {
+		//扫描旧项目
+		if e = file.ScanDir(global.Config.Storage.ProjectDir, func(path string, info os.FileInfo) error {
 			if !info.IsDir() {
 				return nil
 			}
@@ -25,33 +34,37 @@ func Clear(t time.Duration, yes bool) error {
 				if !info.IsDir() {
 					return nil
 				}
-				path = file.JoinPath(path, info.Name())
-				if info.ModTime().Before(time.Now().Add(-t)) {
-					cmd := exec.Command("git", "status")
-					cmd.Dir = path
-					r, e := cmd.Output()
-					if e != nil {
-						log.Printf("warning: %s isn't a git repo: %v.", path, e)
+				return file.ScanDir(file.JoinPath(path, info.Name()), func(path string, info os.FileInfo) error {
+					if !info.IsDir() {
 						return nil
 					}
-					if !strings.Contains(string(r), "nothing to commit, working tree clean") {
-						log.Printf("warning: %s is outdated but have uncommited codes.", path)
-						return nil
-					} else {
-						outdatedProjects = append(outdatedProjects, path)
-						return nil
+					path = file.JoinPath(path, info.Name())
+					if info.ModTime().Before(time.Now().Add(-t)) {
+						cmd := exec.Command("git", "status")
+						cmd.Dir = path
+						r, e := cmd.Output()
+						if e != nil {
+							log.Printf("warning: %s isn't a git repo: %v.", path, e)
+							return nil
+						}
+						if !strings.Contains(string(r), "nothing to commit, working tree clean") {
+							log.Printf("warning: %s is outdated but have uncommited codes.", path)
+							return nil
+						} else {
+							projectPaths = append(projectPaths, path)
+							return nil
+						}
 					}
-				}
-				return nil
+					return nil
+				})
 			})
-		})
-	})
-	if e != nil {
-		return e
+		}); e != nil {
+			return e
+		}
 	}
-	if len(outdatedProjects) != 0 {
+	if len(projectPaths) != 0 {
 		log.Println("info: following projects is going to be deleted.")
-		fmt.Println(strings.Join(outdatedProjects, "\n"))
+		fmt.Println(strings.Join(projectPaths, "\n"))
 
 		if !yes {
 			fmt.Printf("Do you want to continue? [Y/n]")
@@ -64,14 +77,14 @@ func Clear(t time.Duration, yes bool) error {
 			}
 		}
 
-		for _, path := range outdatedProjects {
+		for _, path := range projectPaths {
 			if e = os.RemoveAll(path); e != nil {
 				log.Printf("warning: remove project %s failed: %v", path, e)
 			}
 		}
 		log.Println("info: clear task completed.")
 	} else {
-		log.Println("info: no project is outdated.")
+		log.Println("info: no project is deleted.")
 	}
 	return nil
 }

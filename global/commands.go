@@ -33,6 +33,9 @@ func init() {
 	Commands.Config.Set.Arg("value", "Value of field.").StringVar(&Commands.Config.Set.Value)
 	Commands.Config.Unset.CmdClause = Commands.Config.Command("unset", "Clear config.")
 	Commands.Config.Unset.Arg("field", "Field to clear.").Required().StringVar(&Commands.Config.Unset.Field)
+
+	Commands.Browser.CmdClause = Commands.App.Command("browser", "Open project in browser.")
+	Commands.Browser.Arg("addr", "Project addr.").Required().StringVar(&Commands.Browser.Addr)
 }
 
 func ParseFlags(args []string) string {

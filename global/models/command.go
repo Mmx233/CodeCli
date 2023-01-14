@@ -11,6 +11,7 @@ type Commands struct {
 	Clear   ClearCommand
 	Cmd     CmdCommand
 	Config  ConfigCommand
+	Browser BrowserCommand
 }
 
 type ProjectCommand struct {
@@ -52,4 +53,9 @@ type ConfigSetCommand struct {
 type ConfigUnsetCommand struct {
 	*kingpin.CmdClause
 	Field string
+}
+
+type BrowserCommand struct {
+	*kingpin.CmdClause
+	Addr string
 }

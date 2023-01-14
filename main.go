@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/Mmx233/CodeCli/global"
+	"github.com/Mmx233/CodeCli/pkg/browser"
 	"github.com/Mmx233/CodeCli/pkg/config"
 	"github.com/Mmx233/CodeCli/pkg/project"
 	"log"
@@ -29,6 +30,8 @@ func main() {
 			e = config.Set(global.Commands.Config.Set.Field, global.Commands.Config.Set.Value)
 		case global.Commands.Config.Unset.FullCommand():
 			e = config.Unset(global.Commands.Config.Unset.Field)
+		case global.Commands.Browser.FullCommand():
+			e = browser.Open(global.Commands.Browser.Addr)
 		}
 	}
 	if e != nil {

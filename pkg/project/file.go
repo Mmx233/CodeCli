@@ -4,12 +4,11 @@ import (
 	"github.com/Mmx233/CodeCli/cmd"
 	"github.com/Mmx233/tool"
 	"os"
-	"os/exec"
 	"strings"
 )
 
 func Clone(path, url string) error {
-	if e := cmd.Clone(url, path); e != nil {
+	if e := cmd.GitClone(url, path); e != nil {
 		_ = os.RemoveAll(path)
 		return e
 	}
@@ -17,9 +16,7 @@ func Clone(path, url string) error {
 }
 
 func CodeUncommitted(path string) (bool, error) {
-	command := exec.Command("git", "status")
-	command.Dir = path
-	r, e := command.Output()
+	r, e := cmd.GitStatus(path)
 	if e != nil {
 		return false, e
 	}

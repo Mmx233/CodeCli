@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 )
@@ -10,6 +11,7 @@ func GitClone(url, path string) error {
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+	fmt.Printf("Cloning from %s\n", url)
 	if e := cmd.Start(); e != nil {
 		return e
 	}

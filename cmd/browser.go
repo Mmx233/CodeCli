@@ -1,7 +1,14 @@
 package cmd
 
-import "os/exec"
+import (
+	"os/exec"
+)
 
 func OpenExplorer(path string) error {
-	return exec.Command("explorer", path).Run()
+	cmd := exec.Command("explorer", path)
+	if e := cmd.Start(); e != nil {
+		return e
+	}
+	_ = cmd.Wait()
+	return nil
 }

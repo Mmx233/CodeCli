@@ -13,7 +13,11 @@ func main() {
 	var e error
 	switch len(os.Args) {
 	case 1:
-		e = project.OpenProject(".")
+		var pwd string
+		pwd, e = os.Getwd()
+		if e == nil {
+			e = project.OpenProject(pwd)
+		}
 	default:
 		switch global.ParseFlags(os.Args[1:]) {
 		case global.Commands.Project.FullCommand():

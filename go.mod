@@ -1,6 +1,6 @@
 module github.com/Mmx233/CodeCli
 
-go 1.19
+go 1.20
 
 require (
 	github.com/Mmx233/config v0.0.8

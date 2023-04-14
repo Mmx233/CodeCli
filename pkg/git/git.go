@@ -1,4 +1,4 @@
-package cmd
+package git
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"os/exec"
 )
 
-func GitClone(url, path string) error {
+func Clone(url, path string) error {
 	cmd := exec.Command("git", "clone", url, path)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
@@ -18,7 +18,7 @@ func GitClone(url, path string) error {
 	return cmd.Wait()
 }
 
-func GitStatus(path string) ([]byte, error) {
+func Status(path string) ([]byte, error) {
 	cmd := exec.Command("git", "status")
 	cmd.Dir = path
 	return cmd.Output()

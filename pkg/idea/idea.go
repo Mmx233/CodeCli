@@ -1,4 +1,4 @@
-package cmd
+package idea
 
 import (
 	"os/exec"
@@ -85,7 +85,7 @@ func init() {
 	}
 }
 
-func OpenIdea(idea, projectPath string) error {
+func Open(idea, projectPath string) error {
 	return Exec.Background(ideaCommand(idea), projectPath)
 }
 

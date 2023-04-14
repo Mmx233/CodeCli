@@ -1,14 +1,14 @@
 package project
 
 import (
-	"github.com/Mmx233/CodeCli/cmd"
+	"github.com/Mmx233/CodeCli/pkg/git"
 	"github.com/Mmx233/tool"
 	"os"
 	"strings"
 )
 
 func Clone(path, url string) error {
-	if e := cmd.GitClone(url, path); e != nil {
+	if e := git.Clone(url, path); e != nil {
 		_ = os.RemoveAll(path)
 		return e
 	}
@@ -16,7 +16,7 @@ func Clone(path, url string) error {
 }
 
 func CodeUncommitted(path string) (bool, error) {
-	r, e := cmd.GitStatus(path)
+	r, e := git.Status(path)
 	if e != nil {
 		return false, e
 	}

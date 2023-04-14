@@ -1,8 +1,8 @@
 package browser
 
 import (
-	"github.com/Mmx233/CodeCli/cmd"
 	"github.com/Mmx233/CodeCli/pkg/project"
+	"os/exec"
 )
 
 func Open(addr string) error {
@@ -10,5 +10,14 @@ func Open(addr string) error {
 	if e != nil {
 		return e
 	}
-	return cmd.OpenExplorer(p.Url())
+	return OpenExplorer(p.Url())
+}
+
+func OpenExplorer(path string) error {
+	cmd := exec.Command("explorer", path)
+	if e := cmd.Start(); e != nil {
+		return e
+	}
+	_ = cmd.Wait()
+	return nil
 }

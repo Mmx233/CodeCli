@@ -2,8 +2,8 @@ package project
 
 import (
 	"fmt"
-	"github.com/Mmx233/CodeCli/cmd"
 	"github.com/Mmx233/CodeCli/global"
+	"github.com/Mmx233/CodeCli/pkg/idea"
 )
 
 func Open(addr string) error {
@@ -15,15 +15,15 @@ func Open(addr string) error {
 }
 
 func OpenProject(path string) error {
-	var idea = global.Commands.Project.Idea
-	if idea == "" {
+	var ideaName = global.Commands.Project.Idea
+	if ideaName == "" {
 		var e error
-		idea, e = IdeaSelect(path)
+		ideaName, e = IdeaSelect(path)
 		if e != nil {
 			return e
 		}
 	}
-	return cmd.OpenIdea(idea, path)
+	return idea.Open(ideaName, path)
 }
 
 func OpenCmd(addr string) error {
@@ -31,7 +31,7 @@ func OpenCmd(addr string) error {
 	if e != nil {
 		return e
 	}
-	return cmd.RunCmd(project.Path, global.Config.Default.CmdProgram)
+	return idea.RunCmd(project.Path, global.Config.Default.CmdProgram)
 }
 
 type Project struct {

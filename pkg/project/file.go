@@ -33,7 +33,10 @@ func LoadProject(addr string) (*Project, error) {
 		return nil, e
 	}
 
-	if !tool.File.Exists(project.Path) {
+	exist, e := tool.File.Exists(project.Path)
+	if e != nil {
+		return nil, e
+	} else if !exist {
 		if e = Clone(project.Path, project.Url()); e != nil {
 			return nil, e
 		}

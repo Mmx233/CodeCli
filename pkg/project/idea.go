@@ -14,15 +14,31 @@ const (
 )
 
 func IdeaSelect(dir string) (string, error) {
-	if tool.File.Exists(file.JoinPath(dir, "package.json")) {
+	exist, e := tool.File.Exists(file.JoinPath(dir, "package.json"))
+	if e != nil {
+		return "", e
+	} else if exist {
 		return Webstorm, nil
 	}
-	if tool.File.Exists(file.JoinPath(dir, "go.mod")) {
+
+	exist, e = tool.File.Exists(file.JoinPath(dir, "go.mod"))
+	if e != nil {
+		return "", e
+	} else if exist {
 		return Goland, nil
 	}
-	if tool.File.Exists(file.JoinPath(dir, "android", "build.gradle")) || tool.File.Exists(file.JoinPath(dir, "build.gradle")) {
+
+	exist, e = tool.File.Exists(file.JoinPath(dir, "android", "build.gradle"))
+	if e != nil {
+		return "", e
+	} else if exist {
+		return AndroidStudio, nil
+	} else if exist, e = tool.File.Exists(file.JoinPath(dir, "build.gradle")); e != nil {
+		return "", e
+	} else if exist {
 		return AndroidStudio, nil
 	}
+
 	if global.Config.Default.Idea != "" {
 		return global.Config.Default.Idea, nil
 	}

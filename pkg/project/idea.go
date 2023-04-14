@@ -1,9 +1,9 @@
 package project
 
 import (
-	"github.com/Mmx233/CodeCli/global"
+	"github.com/Mmx233/CodeCli/internal/global"
+	"github.com/Mmx233/CodeCli/internal/util"
 	"github.com/Mmx233/CodeCli/pkg/file"
-	"github.com/Mmx233/CodeCli/util"
 	"github.com/Mmx233/tool"
 )
 

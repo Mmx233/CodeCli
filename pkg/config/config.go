@@ -2,8 +2,8 @@ package config
 
 import (
 	"fmt"
-	"github.com/Mmx233/CodeCli/global"
-	"github.com/Mmx233/CodeCli/util"
+	"github.com/Mmx233/CodeCli/internal/global"
+	"github.com/Mmx233/CodeCli/internal/util"
 	"gopkg.in/yaml.v3"
 	"reflect"
 	"strings"

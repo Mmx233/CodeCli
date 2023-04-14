@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Mmx233/CodeCli/global"
+	"github.com/Mmx233/CodeCli/internal/global"
 	"github.com/Mmx233/CodeCli/pkg/browser"
 	"github.com/Mmx233/CodeCli/pkg/config"
 	"github.com/Mmx233/CodeCli/pkg/project"

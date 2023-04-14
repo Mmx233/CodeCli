@@ -2,7 +2,7 @@ package project
 
 import (
 	"fmt"
-	"github.com/Mmx233/CodeCli/global"
+	"github.com/Mmx233/CodeCli/internal/global"
 	"github.com/Mmx233/CodeCli/pkg/file"
 	"log"
 	"os"

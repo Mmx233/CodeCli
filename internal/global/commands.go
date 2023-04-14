@@ -1,7 +1,7 @@
 package global
 
 import (
-	"github.com/Mmx233/CodeCli/global/models"
+	"github.com/Mmx233/CodeCli/internal/global/models"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 

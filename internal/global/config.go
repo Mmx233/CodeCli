@@ -1,7 +1,7 @@
 package global
 
 import (
-	"github.com/Mmx233/CodeCli/global/models"
+	"github.com/Mmx233/CodeCli/internal/global/models"
 	"github.com/Mmx233/CodeCli/pkg/file"
 	"github.com/Mmx233/config"
 	"github.com/mitchellh/go-homedir"

@@ -7,7 +7,7 @@ import (
 
 var Commands models.Commands
 
-func init() {
+func InitCommands(Version string) {
 	Commands.App = kingpin.New("code", "A project manager command line tool.")
 	Commands.App.Version(Version)
 	Commands.App.VersionFlag.Short('v')

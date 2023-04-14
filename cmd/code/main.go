@@ -9,6 +9,12 @@ import (
 	"os"
 )
 
+var Version = "-.-.-"
+
+func init() {
+	global.InitCommands(Version)
+}
+
 func main() {
 	var e error
 	switch len(os.Args) {

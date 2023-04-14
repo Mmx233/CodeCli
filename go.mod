@@ -3,8 +3,8 @@ module github.com/Mmx233/CodeCli
 go 1.20
 
 require (
-	github.com/Mmx233/config v0.0.8
-	github.com/Mmx233/tool v0.6.8
+	github.com/Mmx233/config v0.1.0
+	github.com/Mmx233/tool v0.6.9
 	github.com/mitchellh/go-homedir v1.1.0
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 	gopkg.in/yaml.v3 v3.0.1

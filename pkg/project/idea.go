@@ -11,6 +11,7 @@ const (
 	Webstorm      = "webstorm"
 	Goland        = "goland"
 	AndroidStudio = "studio"
+	IntelliJ      = "idea"
 )
 
 func IdeaSelect(dir string) (string, error) {
@@ -37,6 +38,13 @@ func IdeaSelect(dir string) (string, error) {
 		return "", e
 	} else if exist {
 		return AndroidStudio, nil
+	}
+
+	exist, e = tool.File.Exists(file.JoinPath(dir, "gradlew"))
+	if e != nil {
+		return "", e
+	} else if exist {
+		return IntelliJ, nil
 	}
 
 	if global.Config.Default.Idea != "" {

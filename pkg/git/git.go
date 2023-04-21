@@ -23,3 +23,9 @@ func Status(path string) ([]byte, error) {
 	cmd.Dir = path
 	return cmd.Output()
 }
+
+func BranchStatus(path string) ([]byte, error) {
+	cmd := exec.Command("git", "branch", "-v")
+	cmd.Dir = path
+	return cmd.Output()
+}

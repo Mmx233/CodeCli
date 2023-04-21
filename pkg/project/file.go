@@ -15,16 +15,20 @@ func Clone(path, url string) error {
 	return nil
 }
 
-func CodeUncommitted(path string) (bool, error) {
-	r, e := git.Status(path)
+func IsRepoClean(path string) (bool, error) {
+	output, e := git.BranchStatus(path)
 	if e != nil {
 		return false, e
 	}
-	str := string(r)
+	if strings.Contains(string(output), "ahead") {
+		return false, nil
+	}
 
-	return !(strings.Contains(str, "nothing to commit, working tree clean") &&
-			strings.Contains(str, "Your branch is up to date with")),
-		nil
+	output, e = git.Status(path)
+	if e != nil {
+		return false, e
+	}
+	return strings.Contains(string(output), "nothing to commit, working tree clean"), nil
 }
 
 func LoadProject(addr string) (*Project, error) {

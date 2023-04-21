@@ -20,7 +20,11 @@ func CodeUncommitted(path string) (bool, error) {
 	if e != nil {
 		return false, e
 	}
-	return !strings.Contains(string(r), "nothing to commit, working tree clean"), nil
+	str := string(r)
+
+	return !(strings.Contains(str, "nothing to commit, working tree clean") &&
+			strings.Contains(str, "Your branch is up to date with")),
+		nil
 }
 
 func LoadProject(addr string) (*Project, error) {

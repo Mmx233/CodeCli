@@ -58,7 +58,7 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 				log.Printf("warning: %s isn't a git repo: %v.", path, e)
 				continue
 			} else if uncommitted {
-				log.Printf("warning: %s should be deleted but have uncommited codes.", path)
+				log.Printf("warning: %s should be deleted but have uncommited codes or commits not pushed.", path)
 			} else {
 				projectPure = append(projectPure, path)
 			}

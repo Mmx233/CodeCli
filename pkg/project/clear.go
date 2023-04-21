@@ -58,7 +58,7 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 				log.Printf("warning: %s isn't a git repo: %v.", path, e)
 				continue
 			} else if !isClean {
-				log.Printf("warning: %s should be deleted but have uncommited codes or commits not pushed.", path)
+				log.Printf("warning: %s should be cleared, but there are local changes.", path)
 			} else {
 				projectPure = append(projectPure, path)
 			}
@@ -66,7 +66,7 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 		projectPaths = projectPure
 	}
 	if len(projectPaths) != 0 {
-		log.Println("info: following projects is going to be deleted.")
+		log.Println("info: following projects is going to be cleared.")
 		fmt.Println(strings.Join(projectPaths, "\n"))
 
 		if !yes && !force {
@@ -85,9 +85,9 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 				log.Printf("warning: remove project %s failed: %v", path, e)
 			}
 		}
-		log.Println("info: clear task completed.")
+		log.Println("info: clean task completed.")
 	} else {
-		log.Println("info: no project is deleted.")
+		log.Println("info: no project to clear.")
 	}
 	return nil
 }

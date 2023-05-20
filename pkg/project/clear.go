@@ -10,6 +10,10 @@ import (
 	"time"
 )
 
+func dirShouldScan(file os.FileInfo) bool {
+	return file.IsDir() && !strings.HasPrefix(file.Name(), ".")
+}
+
 func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 	var projectPaths []string
 	var e error
@@ -26,15 +30,15 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 	} else {
 		//扫描旧项目
 		if e = file.ScanDir(global.Config.Storage.ProjectDir, func(path string, info os.FileInfo) error {
-			if !info.IsDir() {
+			if !dirShouldScan(info) {
 				return nil
 			}
 			return file.ScanDir(file.JoinPath(path, info.Name()), func(path string, info os.FileInfo) error {
-				if !info.IsDir() {
+				if !dirShouldScan(info) {
 					return nil
 				}
 				return file.ScanDir(file.JoinPath(path, info.Name()), func(path string, info os.FileInfo) error {
-					if !info.IsDir() {
+					if !dirShouldScan(info) {
 						return nil
 					}
 					path = file.JoinPath(path, info.Name())

@@ -9,6 +9,7 @@ import (
 
 // CompleteAddrToProject 填充简写为完整 addr
 func CompleteAddrToProject(addr string) (*Project, error) {
+	addr = strings.Replace(addr, `\`, `/`, -1)
 	if strings.Contains(addr, "https://") {
 		addr = strings.TrimPrefix(addr, "https://")
 		addr = strings.TrimSuffix(addr, ".git")

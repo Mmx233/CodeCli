@@ -6,7 +6,7 @@
 
 受启发于 VsCode code command line，实现 Jetbrain idea 命令行自动克隆、自动判断项目类型、自动启动 idea
 
-目前支持 Goland、Webstorm、Android Studio，针对 windows 优化。需要在安装 idea 时勾选添加到 PATH，特别的，Android Studio 需要手动配置 PATH。空项目路径与不支持的项目类型将报错以等待手动执行
+目前支持 Goland、WebStorm、PyCharm、IntelliJ、Android Studio，针对 windows 优化。需要在安装 idea 时勾选添加到 PATH，特别的，Android Studio 需要手动配置 PATH。空项目路径与不支持的项目类型将报错以等待手动执行
 
 下载可执行文件后放入 bin 中，首次使用需运行一次以生成配置文件
 

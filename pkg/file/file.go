@@ -2,24 +2,9 @@ package file
 
 import (
 	"os"
-	"path"
-	"runtime"
-	"strings"
 )
 
 var JoinPath func(el ...string) string
-
-func init() {
-	if runtime.GOOS == "windows" {
-		JoinPath = windowsPathJoin
-	} else {
-		JoinPath = path.Join
-	}
-}
-
-func windowsPathJoin(el ...string) string {
-	return strings.Join(el, `\`)
-}
 
 func ScanDir(path string, f func(path string, info os.FileInfo) error) error {
 	entries, e := os.ReadDir(path)

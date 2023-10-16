@@ -12,39 +12,27 @@ const (
 	Goland        = "goland"
 	AndroidStudio = "studio"
 	IntelliJ      = "idea"
+	PyCharm       = "pycharm"
 )
 
 func IdeaSelect(dir string) (string, error) {
-	exist, e := tool.File.Exists(file.JoinPath(dir, "package.json"))
-	if e != nil {
-		return "", e
-	} else if exist {
-		return Webstorm, nil
+	var selector = map[string][]string{
+		Webstorm:      {"package.json"},
+		Goland:        {"go.mod"},
+		PyCharm:       {"pyproject.toml", "requirements.txt"},
+		AndroidStudio: {file.JoinPath("android", "build.gradle"), "build.gradle"},
+		IntelliJ:      {"gradlew"},
 	}
 
-	exist, e = tool.File.Exists(file.JoinPath(dir, "go.mod"))
-	if e != nil {
-		return "", e
-	} else if exist {
-		return Goland, nil
-	}
-
-	exist, e = tool.File.Exists(file.JoinPath(dir, "android", "build.gradle"))
-	if e != nil {
-		return "", e
-	} else if exist {
-		return AndroidStudio, nil
-	} else if exist, e = tool.File.Exists(file.JoinPath(dir, "build.gradle")); e != nil {
-		return "", e
-	} else if exist {
-		return AndroidStudio, nil
-	}
-
-	exist, e = tool.File.Exists(file.JoinPath(dir, "gradlew"))
-	if e != nil {
-		return "", e
-	} else if exist {
-		return IntelliJ, nil
+	for idea, files := range selector {
+		for _, filename := range files {
+			exist, err := tool.File.Exists(file.JoinPath(dir, filename))
+			if err != nil {
+				return "", err
+			} else if exist {
+				return idea, nil
+			}
+		}
 	}
 
 	if global.Config.Default.Idea != "" {

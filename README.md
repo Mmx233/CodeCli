@@ -49,7 +49,7 @@ code CodeCli --idea webstorm #指定 webstorm 打开该项目。同配置文件�
 ```shell
 code clear
 code clear -t 1000h #指定闲置时间
-code clear Mmx233/CodeCli AntherCodeCli #删除指定仓库
+code clear Mmx233/CodeCli AnotherCodeCli #删除指定仓库
 
 code clear -y #跳过删除确认
 code clear -f #即使有未提交代码或非 git 目录也强行删除

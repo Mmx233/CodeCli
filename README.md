@@ -12,7 +12,7 @@
 
 ## 配置文件
 
-配置文件位于 `$HOME/.CodeCli.yaml`
+配置文件位于 `$HOME/.CodeCli.yaml`，除 `default.idea` 外为必填
 
 ```yaml
 default:
@@ -39,7 +39,7 @@ code https://github.com/Mmx233/CodeCli
 code Mmx233/CodeCli
 code CodeCli
 
-code CodeCli --idea webstorm #指定 webstorm 打开该项目
+code CodeCli --idea webstorm #指定 webstorm 打开该项目。同配置文件默认 idea，其值为指令而非名称，如 intelliJ 为 idea
 ```
 
 ### 清理项目

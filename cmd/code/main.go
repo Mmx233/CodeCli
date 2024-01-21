@@ -16,35 +16,35 @@ func init() {
 }
 
 func main() {
-	var e error
+	var err error
 	switch len(os.Args) {
 	case 1:
 		var pwd string
-		pwd, e = os.Getwd()
-		if e == nil {
-			e = project.OpenProject(pwd)
+		pwd, err = os.Getwd()
+		if err == nil {
+			err = project.OpenProject(pwd)
 		}
 	default:
 		switch global.ParseFlags(os.Args[1:]) {
 		case global.Commands.Project.FullCommand():
-			e = project.Open(global.Commands.Project.Addr)
+			err = project.Open(global.Commands.Project.Addr)
 		case global.Commands.Clear.FullCommand():
-			e = project.Clear(global.Commands.Clear.Duration,
+			err = project.Clear(global.Commands.Clear.Duration,
 				global.Commands.Clear.Yes, global.Commands.Clear.Force,
 				global.Commands.Clear.Addresses...)
 		case global.Commands.Cmd.FullCommand():
-			e = project.OpenCmd(global.Commands.Cmd.Addr)
+			err = project.OpenCmd(global.Commands.Cmd.Addr)
 		case global.Commands.Config.List.FullCommand():
-			e = config.List()
+			err = config.List()
 		case global.Commands.Config.Set.FullCommand():
-			e = config.Set(global.Commands.Config.Set.Field, global.Commands.Config.Set.Value)
+			err = config.Set(global.Commands.Config.Set.Field, global.Commands.Config.Set.Value)
 		case global.Commands.Config.Unset.FullCommand():
-			e = config.Unset(global.Commands.Config.Unset.Field)
+			err = config.Unset(global.Commands.Config.Unset.Field)
 		case global.Commands.Browser.FullCommand():
-			e = browser.Open(global.Commands.Browser.Addr)
+			err = browser.Open(global.Commands.Browser.Addr)
 		}
 	}
-	if e != nil {
-		log.Fatalln(e)
+	if err != nil {
+		log.Fatalln(err)
 	}
 }

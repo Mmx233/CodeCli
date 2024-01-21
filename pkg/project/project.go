@@ -17,10 +17,10 @@ func Open(addr string) error {
 func OpenProject(path string) error {
 	var ideaName = global.Commands.Project.Idea
 	if ideaName == "" {
-		var e error
-		ideaName, e = IdeaSelect(path)
-		if e != nil {
-			return e
+		var err error
+		ideaName, err = IdeaSelect(path)
+		if err != nil {
+			return err
 		}
 	}
 	return idea.Open(ideaName, path)

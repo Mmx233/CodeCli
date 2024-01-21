@@ -16,20 +16,20 @@ func dirShouldScan(file os.FileInfo) bool {
 
 func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 	var projectPaths []string
-	var e error
+	var err error
 	if len(addresses) != 0 {
 		for _, addr := range addresses {
 			var project *Project
-			project, e = CompleteAddrToProject(addr)
-			if e != nil {
-				log.Printf("warning: addr %s occur error: %v\n", addr, e)
+			project, err = CompleteAddrToProject(addr)
+			if err != nil {
+				log.Printf("warning: addr %s occur error: %v\n", addr, err)
 				continue
 			}
 			projectPaths = append(projectPaths, project.Path)
 		}
 	} else {
 		//扫描旧项目
-		if e = file.ScanDir(global.Config.Storage.ProjectDir, func(path string, info os.FileInfo) error {
+		if err = file.ScanDir(global.Config.Storage.ProjectDir, func(path string, info os.FileInfo) error {
 			if !dirShouldScan(info) {
 				return nil
 			}
@@ -48,8 +48,8 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 					return nil
 				})
 			})
-		}); e != nil {
-			return e
+		}); err != nil {
+			return err
 		}
 	}
 	if !force && len(projectPaths) != 0 {
@@ -57,9 +57,9 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 		var projectPure []string
 		var isClean bool
 		for _, path := range projectPaths {
-			isClean, e = IsRepoClean(path)
-			if e != nil {
-				log.Printf("warning: %s isn't a git repo: %v.", path, e)
+			isClean, err = IsRepoClean(path)
+			if err != nil {
+				log.Printf("warning: %s isn't a git repo: %v.", path, err)
 				continue
 			} else if !isClean {
 				log.Printf("warning: %s should be cleared, but there are local changes.", path)
@@ -76,8 +76,8 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 		if !yes && !force {
 			fmt.Printf("Do you want to continue? [Y/n]")
 			var input string
-			if _, e = fmt.Scanln(&input); e != nil {
-				return e
+			if _, err = fmt.Scanln(&input); err != nil {
+				return err
 			}
 			if !(input == "" || strings.ToLower(strings.TrimSpace(input)) == "y") {
 				return nil
@@ -85,8 +85,8 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 		}
 
 		for _, path := range projectPaths {
-			if e = os.RemoveAll(path); e != nil {
-				log.Printf("warning: remove project %s failed: %v", path, e)
+			if err = os.RemoveAll(path); err != nil {
+				log.Printf("warning: remove project %s failed: %v", path, err)
 			}
 		}
 		log.Println("info: clean task completed.")

@@ -1,7 +1,7 @@
 package browser
 
 import (
-	"github.com/Mmx233/CodeCli/pkg/project"
+	"github.com/Mmx233/CodeCli/internal/pkg/project"
 	"os/exec"
 )
 

@@ -27,6 +27,8 @@ rules: #从上到下匹配
     - go.mod
   idea:
     - gradlew
+  rustrover:
+    - Cargo.toml
   pycharm:
     - pyproject.toml
     - requirements.txt

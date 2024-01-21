@@ -36,6 +36,9 @@ func init() {
 				"goland": {
 					"go.mod",
 				},
+				"rustrover": {
+					"Cargo.toml",
+				},
 				"pycharm": {
 					"pyproject.toml", "requirements.txt",
 				},

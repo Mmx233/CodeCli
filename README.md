@@ -1,10 +1,10 @@
 # CodeCli
 
-[![Lisense](https://img.shields.io/github/license/Mmx233/CodeCli)](https://github.com/Mmx233/CodeCli/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/Mmx233/CodeCli)](https://github.com/Mmx233/CodeCli/blob/main/LICENSE)
 [![Release](https://img.shields.io/github/v/release/Mmx233/CodeCli?color=blueviolet&include_prereleases)](https://github.com/Mmx233/CodeCli/releases)
 [![GoReport](https://goreportcard.com/badge/github.com/Mmx233/CodeCli)](https://goreportcard.com/report/github.com/Mmx233/CodeCli)
 
-受启发于 VsCode code command line，实现 Jetbrain idea 命令行自动克隆、自动判断项目类型、自动启动 idea
+受启发于 VsCode code command line，实现 Jetbrains idea 命令行自动克隆、自动判断项目类型、自动启动 idea
 
 目前支持 Goland、WebStorm、PyCharm、IntelliJ、Android Studio，针对 windows 优化。需要在安装 idea 时勾选添加到 PATH，特别的，Android Studio 需要手动配置 PATH。空项目路径与不支持的项目类型将报错以等待手动执行
 

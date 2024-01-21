@@ -8,45 +8,45 @@ import (
 )
 
 func Clone(path, url string) error {
-	if e := git.Clone(url, path); e != nil {
+	if err := git.Clone(url, path); err != nil {
 		_ = os.RemoveAll(path)
-		return e
+		return err
 	}
 	return nil
 }
 
 func IsRepoClean(path string) (bool, error) {
-	output, e := git.BranchStatus(path)
-	if e != nil {
-		return false, e
+	output, err := git.BranchStatus(path)
+	if err != nil {
+		return false, err
 	}
 	if strings.Contains(string(output), "ahead") {
 		return false, nil
 	}
 
-	output, e = git.Status(path)
-	if e != nil {
-		return false, e
+	output, err = git.Status(path)
+	if err != nil {
+		return false, err
 	}
 	return strings.Contains(string(output), "nothing to commit, working tree clean"), nil
 }
 
 func LoadProject(addr string) (*Project, error) {
-	project, e := CompleteAddrToProject(addr)
-	if e != nil {
-		return nil, e
+	project, err := CompleteAddrToProject(addr)
+	if err != nil {
+		return nil, err
 	}
 
-	if e = os.MkdirAll(project.Dir, 0600); e != nil {
-		return nil, e
+	if err = os.MkdirAll(project.Dir, 0600); err != nil {
+		return nil, err
 	}
 
-	exist, e := tool.File.Exists(project.Path)
-	if e != nil {
-		return nil, e
+	exist, err := tool.File.Exists(project.Path)
+	if err != nil {
+		return nil, err
 	} else if !exist {
-		if e = Clone(project.Path, project.Url()); e != nil {
-			return nil, e
+		if err = Clone(project.Path, project.Url()); err != nil {
+			return nil, err
 		}
 	}
 	return project, nil

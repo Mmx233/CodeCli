@@ -7,18 +7,18 @@ import (
 var JoinPath func(el ...string) string
 
 func ScanDir(path string, f func(path string, info os.FileInfo) error) error {
-	entries, e := os.ReadDir(path)
-	if e != nil {
-		return e
+	entries, err := os.ReadDir(path)
+	if err != nil {
+		return err
 	}
 	for _, entry := range entries {
 		var info os.FileInfo
-		info, e = entry.Info()
-		if e != nil {
-			return e
+		info, err = entry.Info()
+		if err != nil {
+			return err
 		}
-		if e = f(path, info); e != nil {
-			return e
+		if err = f(path, info); err != nil {
+			return err
 		}
 	}
 	return nil

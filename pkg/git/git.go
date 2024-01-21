@@ -12,8 +12,8 @@ func Clone(url, path string) error {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	fmt.Printf("Cloning %s\n", url)
-	if e := cmd.Start(); e != nil {
-		return e
+	if err := cmd.Start(); err != nil {
+		return err
 	}
 	return cmd.Wait()
 }

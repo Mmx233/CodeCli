@@ -7,9 +7,9 @@ import (
 )
 
 func Open(addr string) error {
-	project, e := LoadProject(addr)
-	if e != nil {
-		return e
+	project, err := LoadProject(addr)
+	if err != nil {
+		return err
 	}
 	return OpenProject(project.Path)
 }
@@ -27,9 +27,9 @@ func OpenProject(path string) error {
 }
 
 func OpenCmd(addr string) error {
-	project, e := LoadProject(addr)
-	if e != nil {
-		return e
+	project, err := LoadProject(addr)
+	if err != nil {
+		return err
 	}
 	return idea.RunCmd(project.Path, global.Config.Default.CmdProgram)
 }

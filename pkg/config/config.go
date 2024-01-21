@@ -10,9 +10,9 @@ import (
 )
 
 func List() error {
-	d, e := yaml.Marshal(&global.Config)
-	if e != nil {
-		return e
+	d, err := yaml.Marshal(&global.Config)
+	if err != nil {
+		return err
 	}
 	fmt.Printf(string(d))
 	return nil
@@ -51,18 +51,18 @@ func Set(field, value string) error {
 	}
 
 	fieldName, fieldValue := raw[0], raw[1]
-	rv, e := loadField(fieldName)
-	if e != nil {
-		return e
+	rv, err := loadField(fieldName)
+	if err != nil {
+		return err
 	}
 	rv.SetString(fieldValue)
 	return global.ConfigLoader.Save()
 }
 
 func Unset(field string) error {
-	rv, e := loadField(field)
-	if e != nil {
-		return e
+	rv, err := loadField(field)
+	if err != nil {
+		return err
 	}
 	rv.SetString("")
 	return global.ConfigLoader.Save()

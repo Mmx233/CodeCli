@@ -12,9 +12,9 @@ var ConfigLoader *config.Config
 var Config models.Config
 
 func init() {
-	home, e := homedir.Dir()
-	if e != nil {
-		log.Fatalln(e)
+	home, err := homedir.Dir()
+	if err != nil {
+		log.Fatalln(err)
 	}
 	ConfigLoader = config.NewConfig(&config.Options{
 		Path:   file.JoinPath(home, ".CodeCli.yaml"),
@@ -29,11 +29,11 @@ func init() {
 			},
 		},
 	})
-	if e = ConfigLoader.Load(); e != nil {
-		if e == config.IsNewConfig {
-			log.Println(e.Error())
+	if err = ConfigLoader.Load(); err != nil {
+		if err == config.IsNewConfig {
+			log.Println(err.Error())
 		} else {
-			log.Fatalln(e)
+			log.Fatalln(err)
 		}
 	}
 }

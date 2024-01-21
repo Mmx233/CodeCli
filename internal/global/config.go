@@ -29,24 +29,30 @@ func init() {
 			Storage: models.Storage{
 				ProjectDir: file.JoinPath(home, "project"),
 			},
-			Rules: map[string][]string{
-				"webstorm": {
-					"package.json",
+			Rules: []models.IdeaRule{
+				{
+					Idea: "webstorm",
+					File: []string{"package.json"},
 				},
-				"goland": {
-					"go.mod",
+				{
+					Idea: "goland",
+					File: []string{"go.mod"},
 				},
-				"rustrover": {
-					"Cargo.toml",
+				{
+					Idea: "rustrover",
+					File: []string{"Cargo.toml"},
 				},
-				"pycharm": {
-					"pyproject.toml", "requirements.txt",
+				{
+					Idea: "pycharm",
+					File: []string{"pyproject.toml", "requirements.txt"},
 				},
-				"studio": {
-					file.JoinPath("android", "build.gradle"), "build.gradle",
+				{
+					Idea: "studio",
+					File: []string{file.JoinPath("android", "build.gradle"), "build.gradle"},
 				},
-				"idea": {
-					"gradlew",
+				{
+					Idea: "idea",
+					File: []string{"gradlew"},
 				},
 			},
 		},

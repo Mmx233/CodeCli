@@ -8,13 +8,13 @@ import (
 )
 
 func IdeaSelect(dir string) (string, error) {
-	for idea, files := range global.Config.Rules {
-		for _, filename := range files {
+	for _, rule := range global.Config.Rules {
+		for _, filename := range rule.File {
 			exist, err := tool.File.Exists(file.JoinPath(dir, filename))
 			if err != nil {
 				return "", err
 			} else if exist {
-				return idea, nil
+				return rule.Idea, nil
 			}
 		}
 	}

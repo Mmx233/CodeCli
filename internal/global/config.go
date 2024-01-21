@@ -1,11 +1,13 @@
 package global
 
 import (
+	"errors"
 	"github.com/Mmx233/CodeCli/internal/global/models"
 	"github.com/Mmx233/CodeCli/pkg/file"
 	"github.com/Mmx233/config"
 	"github.com/mitchellh/go-homedir"
 	"log"
+	"os"
 )
 
 var ConfigLoader *config.Config
@@ -47,8 +49,9 @@ func init() {
 		},
 	})
 	if err = ConfigLoader.Load(); err != nil {
-		if err == config.IsNewConfig {
+		if errors.Is(err, config.IsNewConfig) {
 			log.Println(err.Error())
+			os.Exit(0)
 		} else {
 			log.Fatalln(err)
 		}

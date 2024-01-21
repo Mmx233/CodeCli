@@ -23,20 +23,18 @@ default:
 storage:
     projectDir: "" #项目文件存储路径
 rules: #从上到下匹配
-  goland:
-    - go.mod
-  idea:
-    - gradlew
-  rustrover:
-    - Cargo.toml
-  pycharm:
-    - pyproject.toml
-    - requirements.txt
-  studio:
-    - android/build.gradle
-    - build.gradle
-  webstorm:
-    - package.json
+  - idea: webstorm
+    file: [package.json]
+  - idea: goland
+    file: [go.mod]
+  - idea: rustrover
+    file: [Cargo.toml]
+  - idea: pycharm
+    file: [pyproject.toml, requirements.txt]
+  - idea: studio
+    file: [android\build.gradle, build.gradle]
+  - idea: idea
+    file: [gradlew]
 ```
 
 ## 使用

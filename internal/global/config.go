@@ -27,6 +27,23 @@ func init() {
 			Storage: models.Storage{
 				ProjectDir: file.JoinPath(home, "project"),
 			},
+			Rules: map[string][]string{
+				"webstorm": {
+					"package.json",
+				},
+				"goland": {
+					"go.mod",
+				},
+				"pycharm": {
+					"pyproject.toml", "requirements.txt",
+				},
+				"studio": {
+					file.JoinPath("android", "build.gradle"), "build.gradle",
+				},
+				"idea": {
+					"gradlew",
+				},
+			},
 		},
 	})
 	if err = ConfigLoader.Load(); err != nil {

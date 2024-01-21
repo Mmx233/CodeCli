@@ -7,24 +7,8 @@ import (
 	"github.com/Mmx233/tool"
 )
 
-const (
-	Webstorm      = "webstorm"
-	Goland        = "goland"
-	AndroidStudio = "studio"
-	IntelliJ      = "idea"
-	PyCharm       = "pycharm"
-)
-
 func IdeaSelect(dir string) (string, error) {
-	var selector = map[string][]string{
-		Webstorm:      {"package.json"},
-		Goland:        {"go.mod"},
-		PyCharm:       {"pyproject.toml", "requirements.txt"},
-		AndroidStudio: {file.JoinPath("android", "build.gradle"), "build.gradle"},
-		IntelliJ:      {"gradlew"},
-	}
-
-	for idea, files := range selector {
+	for idea, files := range global.Config.Rules {
 		for _, filename := range files {
 			exist, err := tool.File.Exists(file.JoinPath(dir, filename))
 			if err != nil {

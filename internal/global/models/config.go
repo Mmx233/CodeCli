@@ -1,8 +1,9 @@
 package models
 
 type Config struct {
-	Default Default `yaml:"default"`
-	Storage Storage `yaml:"storage"`
+	Default Default             `yaml:"default"`
+	Storage Storage             `yaml:"storage"`
+	Rules   map[string][]string `yaml:"rules"`
 }
 
 type Default struct {

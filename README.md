@@ -22,6 +22,19 @@ default:
     idea: "" #默认 idea，无法判断项目类型时使用。填入 idea 二进制文件名称，如：goland、webstorm、studio
 storage:
     projectDir: "" #项目文件存储路径
+rules: #从上到下匹配
+  goland:
+    - go.mod
+  idea:
+    - gradlew
+  pycharm:
+    - pyproject.toml
+    - requirements.txt
+  studio:
+    - android/build.gradle
+    - build.gradle
+  webstorm:
+    - package.json
 ```
 
 ## 使用

@@ -4,25 +4,27 @@
 [![Release](https://img.shields.io/github/v/release/Mmx233/CodeCli?color=blueviolet&include_prereleases)](https://github.com/Mmx233/CodeCli/releases)
 [![GoReport](https://goreportcard.com/badge/github.com/Mmx233/CodeCli)](https://goreportcard.com/report/github.com/Mmx233/CodeCli)
 
-受启发于 VsCode code command line，实现 Jetbrains idea 命令行自动克隆、自动判断项目类型、自动启动 idea
+Inspired by Visual Studio Code 'code' command line tool，Implement command-line automation for cloning, automatically determining project type, and launching Jetbrains idea.
 
-目前支持 Goland、WebStorm、PyCharm、IntelliJ、Android Studio，针对 windows 优化。需要在安装 idea 时勾选添加到 PATH，特别的，Android Studio 需要手动配置 PATH。空项目路径与不支持的项目类型将报错以等待手动执行
+Now testing and optimization are only performed on Windows. 
 
-下载可执行文件后放入 bin 中，首次使用需运行一次以生成配置文件
+To ensure proper functionality, either select the option to add idea to the PATH during installation or manually add the 'bin' directory of idea to the PATH. In case of an empty project path or when no matching rules are found, an error will be reported, prompting manual execution if no default idea in config.
 
-## 配置文件
+After downloading the executable file, place it in the 'bin' directory. For the initial usage, run it once to generate the configuration files.
 
-配置文件位于 `$HOME/.CodeCli.yaml`，除 `default.idea` 外为必填
+## Config
+
+The configuration file is located at `$HOME/.CodeCli.yaml`, and all fields are mandatory except for `default.idea`.
 
 ```yaml
 default:
     gitSite: github.com
-    username: "" #默认 clone 用户名
-    cmdProgram: "powershell" #cmd 指令默认 cmd 程序
-    idea: "" #默认 idea，无法判断项目类型时使用。填入 idea 二进制文件名称，如：goland、webstorm、studio
+    username: "" # default username for gitSite
+    cmdProgram: "powershell" # program for 'cmd' sub-command
+    idea: "" # default idea, such as goland, webstorm, studio
 storage:
-    projectDir: "" #项目文件存储路径
-rules: #从上到下匹配
+    projectDir: "" # the storage path for project files
+rules: # match from top to bottom
   - idea: webstorm
     file: [package.json]
   - idea: goland
@@ -37,66 +39,66 @@ rules: #从上到下匹配
     file: [gradlew]
 ```
 
-## 使用
+## Usage
 
-以 `default.gitSite=github.com` `default.username=Mmx233` 为例
+Using `default.gitSite=github.com` `default.username=Mmx233` as an example. 
 
-### 打开项目
+### Open project
 
 ```shell
-code #对当前目录执行打开项目
+code # open idea for current directory
 
-code github.com/Mmx233/CodeCli #打开指定项目
-#其他相同作用命令
+code github.com/Mmx233/CodeCli # open the specified project
+# commands with similar functionality
 code https://github.com/Mmx233/CodeCli
 code Mmx233/CodeCli
 code CodeCli
 
-code CodeCli --idea webstorm #指定 webstorm 打开该项目。同配置文件默认 idea，其值为指令而非名称，如 intelliJ 为 idea
+code CodeCli --idea webstorm # specify to open the project with WebStorm
 ```
 
-### 清理项目
+### Clear projects
 
-默认清理 60 天未修改的项目，默认有未提交代码的项目将被跳过
+By default, clean projects that haven't been modified in the last 60 days. Projects with uncommitted code changes will be skipped by default.
 
 ```shell
 code clear
-code clear -t 1000h #指定闲置时间
-code clear Mmx233/CodeCli AnotherCodeCli #删除指定仓库
+code clear -t 1000h # specify the idle time during cleanup
+code clear Mmx233/CodeCli AnotherCodeCli # delete the specified repository
 
-code clear -y #跳过删除确认
-code clear -f #即使有未提交代码或非 git 目录也强行删除
+code clear -y # skip the deletion confirmation
+code clear -f # forcefully delete even if there are uncommitted changes or it's not a Git directory
 ```
 
-### 打开目标项目命令行窗口
+### Open a command window for project
 
 ```shell
 code cmd github.com/Mmx233/CodeCli
 code cmd CodeCli
 ```
 
-### 在浏览器中打开项目仓库地址
+### Open project address in browser
 
-目前仅支持 windows
+Only supported on windows.
 
 ```shell
 code browser Mmx233/CodeCli
 ```
 
-### 配置 CodeCli
+### Configure CodeCli
 
 ```shell
-code config list #列出所有配置
+code config list # list all configs
 
-code config default.username=Mmx233 #修改设置
-#其他相同作用命令
+code config default.username=Mmx233 # modify config
+# commands with similar functionality
 code config default username Mmx233
 code config set default.username=Mmx233
 
-code config unset default.username #清除设置
+code config unset default.username # unset config
 ```
 
-### 全部用法
+### Complete Usage
 
 ```shell
 ~$ code --help-long

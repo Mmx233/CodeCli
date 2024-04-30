@@ -1,10 +1,10 @@
 module github.com/Mmx233/CodeCli
 
-go 1.21.4
+go 1.22.2
 
 require (
 	github.com/Mmx233/config v0.1.0
-	github.com/Mmx233/tool v0.7.4
+	github.com/Mmx233/tool v0.7.7
 	github.com/alecthomas/kingpin/v2 v2.4.0
 	github.com/mitchellh/go-homedir v1.1.0
 	gopkg.in/yaml.v3 v3.0.1

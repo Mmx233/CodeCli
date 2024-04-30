@@ -14,7 +14,7 @@ func InitCommands(Version string) {
 	Commands.App.HelpFlag.Short('h')
 
 	Commands.Project.CmdClause = Commands.App.Command("project", "Open projects.").Default()
-	Commands.Project.Arg("addr", "Project addr.").Required().HintOptions("github.com/Mmx233/CodeCli").StringVar(&Commands.Project.Addr)
+	Commands.Project.Arg("addr", "Project addr.").Default(".").HintOptions("github.com/Mmx233/CodeCli").StringVar(&Commands.Project.Addr)
 	Commands.Project.Flag("idea", "Specify an idea.").HintOptions("goland", "webstorm").StringVar(&Commands.Project.Idea)
 
 	Commands.Clear.CmdClause = Commands.App.Command("clear", "Auto clear outdated projects.")
@@ -24,7 +24,7 @@ func InitCommands(Version string) {
 	Commands.Clear.Arg("addr", "Project addr.").StringsVar(&Commands.Clear.Addresses)
 
 	Commands.Cmd.CmdClause = Commands.App.Command("cmd", "Open project terminal.")
-	Commands.Cmd.Arg("addr", "Project addr.").Required().StringVar(&Commands.Cmd.Addr)
+	Commands.Cmd.Arg("addr", "Project addr.").Default(".").StringVar(&Commands.Cmd.Addr)
 
 	Commands.Config.CmdClause = Commands.App.Command("config", "Write configs.")
 	Commands.Config.List.CmdClause = Commands.Config.Command("list", "List all configs.")
@@ -35,7 +35,7 @@ func InitCommands(Version string) {
 	Commands.Config.Unset.Arg("field", "Field to clear.").Required().StringVar(&Commands.Config.Unset.Field)
 
 	Commands.Browser.CmdClause = Commands.App.Command("browser", "Open project in browser.")
-	Commands.Browser.Arg("addr", "Project addr.").Required().StringVar(&Commands.Browser.Addr)
+	Commands.Browser.Arg("addr", "Project addr.").Default(".").StringVar(&Commands.Browser.Addr)
 }
 
 func ParseFlags(args []string) string {

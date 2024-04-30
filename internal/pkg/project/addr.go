@@ -4,11 +4,19 @@ import (
 	"github.com/Mmx233/CodeCli/internal/global"
 	"github.com/Mmx233/CodeCli/internal/util"
 	"github.com/Mmx233/CodeCli/pkg/file"
+	"os"
 	"strings"
 )
 
 // CompleteAddrToProject 填充简写为完整 addr
 func CompleteAddrToProject(addr string) (*Project, error) {
+	if addr == "." {
+		var err error
+		addr, err = os.Getwd()
+		if err != nil {
+			return nil, err
+		}
+	}
 	addr = strings.Replace(addr, `\`, `/`, -1)
 	if strings.Contains(addr, "https://") {
 		addr = strings.TrimPrefix(addr, "https://")

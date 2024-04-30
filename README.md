@@ -120,7 +120,7 @@ Commands:
     Show help.
 
 
-  project [<flags>] <addr>
+  project [<flags>] [<addr>]
     Open projects.
 
     --idea=IDEA  Specify an idea.
@@ -132,7 +132,7 @@ Commands:
     -y, --yes         Confirm delete.
     -f, --force       Force delete, skip confirm and checks.
 
-  cmd <addr>
+  cmd [<addr>]
     Open project terminal.
 
 
@@ -148,6 +148,6 @@ Commands:
     Clear config.
 
 
-  browser <addr>
+  browser [<addr>]
     Open project in browser.
 ```

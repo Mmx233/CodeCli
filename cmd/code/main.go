@@ -5,7 +5,7 @@ import (
 	"github.com/Mmx233/CodeCli/internal/pkg/browser"
 	"github.com/Mmx233/CodeCli/internal/pkg/config"
 	"github.com/Mmx233/CodeCli/internal/pkg/project"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"os"
 )
 

@@ -6,7 +6,7 @@ import (
 	"github.com/Mmx233/CodeCli/pkg/file"
 	"github.com/Mmx233/config"
 	"github.com/mitchellh/go-homedir"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"os"
 )
 
@@ -59,7 +59,7 @@ func init() {
 	})
 	if err = ConfigLoader.Load(); err != nil {
 		if errors.Is(err, config.IsNewConfig) {
-			log.Println(err.Error())
+			log.Infoln(err.Error())
 			os.Exit(0)
 		} else {
 			log.Fatalln(err)
@@ -67,6 +67,6 @@ func init() {
 	}
 
 	if len(Config.Rules) == 0 {
-		log.Println("Warn: no match rule found")
+		log.Warnln("no match rule found")
 	}
 }

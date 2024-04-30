@@ -65,4 +65,8 @@ func init() {
 			log.Fatalln(err)
 		}
 	}
+
+	if len(Config.Rules) == 0 {
+		log.Println("Warn: no match rule found")
+	}
 }

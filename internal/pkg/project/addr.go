@@ -1,6 +1,7 @@
 package project
 
 import (
+	"errors"
 	"github.com/Mmx233/CodeCli/internal/global"
 	"github.com/Mmx233/CodeCli/internal/util"
 	"github.com/Mmx233/CodeCli/pkg/file"
@@ -34,6 +35,9 @@ func CompleteAddrToProject(addr string) (*Project, error) {
 		fallthrough
 	case path.IsAbs(addr):
 		addr = path.Clean(addr)
+		if !strings.HasPrefix(addr, global.Config.Storage.ProjectDir) {
+			return nil, errors.New("target path out of project root")
+		}
 		addr = strings.TrimPrefix(addr, global.Config.Storage.ProjectDir)
 	default:
 		return nil, util.ErrIllegalInput

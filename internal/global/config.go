@@ -8,6 +8,7 @@ import (
 	"github.com/mitchellh/go-homedir"
 	log "github.com/sirupsen/logrus"
 	"os"
+	"path"
 )
 
 var ConfigLoader *config.Config
@@ -18,8 +19,9 @@ func init() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	home = file.PreparePath(home)
 	ConfigLoader = config.NewConfig(&config.Options{
-		Path:   file.JoinPath(home, ".CodeCli.yaml"),
+		Path:   path.Join(home, ".CodeCli.yaml"),
 		Config: &Config,
 		Default: &models.Config{
 			Default: models.Default{
@@ -27,7 +29,7 @@ func init() {
 				CmdProgram: "powershell",
 			},
 			Storage: models.Storage{
-				ProjectDir: file.JoinPath(home, "project"),
+				ProjectDir: path.Join(home, "project"),
 			},
 			Rules: []models.IdeaRule{
 				{
@@ -48,7 +50,7 @@ func init() {
 				},
 				{
 					Idea: "studio",
-					File: []string{file.JoinPath("android", "build.gradle"), "build.gradle"},
+					File: []string{path.Join("android", "build.gradle"), "build.gradle"},
 				},
 				{
 					Idea: "idea",
@@ -69,4 +71,5 @@ func init() {
 	if len(Config.Rules) == 0 {
 		log.Warnln("no match rule found")
 	}
+	Config.Storage.ProjectDir = file.PreparePath(path.Clean(Config.Storage.ProjectDir))
 }

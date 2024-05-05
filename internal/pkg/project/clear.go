@@ -6,6 +6,7 @@ import (
 	"github.com/Mmx233/CodeCli/pkg/file"
 	log "github.com/sirupsen/logrus"
 	"os"
+	"path"
 	"strings"
 	"time"
 )
@@ -29,21 +30,21 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 		}
 	} else {
 		//扫描旧项目
-		if err = file.ScanDir(global.Config.Storage.ProjectDir, func(path string, info os.FileInfo) error {
+		if err = file.ScanDir(global.Config.Storage.ProjectDir, func(dir string, info os.FileInfo) error {
 			if !dirShouldScan(info) {
 				return nil
 			}
-			return file.ScanDir(file.JoinPath(path, info.Name()), func(path string, info os.FileInfo) error {
+			return file.ScanDir(path.Join(dir, info.Name()), func(dir string, info os.FileInfo) error {
 				if !dirShouldScan(info) {
 					return nil
 				}
-				return file.ScanDir(file.JoinPath(path, info.Name()), func(path string, info os.FileInfo) error {
+				return file.ScanDir(path.Join(dir, info.Name()), func(dir string, info os.FileInfo) error {
 					if !dirShouldScan(info) {
 						return nil
 					}
-					path = file.JoinPath(path, info.Name())
+					dir = path.Join(dir, info.Name())
 					if info.ModTime().Before(time.Now().Add(-t)) {
-						projectPaths = append(projectPaths, path)
+						projectPaths = append(projectPaths, dir)
 					}
 					return nil
 				})

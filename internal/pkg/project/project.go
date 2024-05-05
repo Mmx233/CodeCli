@@ -38,7 +38,9 @@ type Project struct {
 	GitSite  string
 	Username string
 	Repo     string
+	SubDir   string
 
+	// dir of repos
 	Dir  string
 	Path string
 }

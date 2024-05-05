@@ -5,26 +5,45 @@ import (
 	"github.com/Mmx233/CodeCli/internal/util"
 	"github.com/Mmx233/CodeCli/pkg/file"
 	"os"
+	"path"
 	"strings"
 )
 
 // CompleteAddrToProject 填充简写为完整 addr
 func CompleteAddrToProject(addr string) (*Project, error) {
-	if addr == "." {
-		var err error
-		addr, err = os.Getwd()
+	if addr == "" {
+		addr = "."
+	} else {
+		addr = file.PreparePath(addr)
+	}
+
+	switch {
+	case strings.HasPrefix(addr, "http://"):
+		addr = strings.TrimPrefix(addr, "http://")
+		addr = strings.TrimSuffix(addr, ".git")
+	case strings.HasPrefix(addr, "https://"):
+		addr = strings.TrimPrefix(addr, "https://")
+		addr = strings.TrimSuffix(addr, ".git")
+	case addr == "." || addr == ".." ||
+		strings.HasPrefix(addr, "./") || strings.HasPrefix(addr, "../"):
+		pwd, err := os.Getwd()
 		if err != nil {
 			return nil, err
 		}
+		addr = file.PreparePath(path.Join(pwd, addr))
+		fallthrough
+	case path.IsAbs(addr):
+		addr = path.Clean(addr)
+		addr = strings.TrimPrefix(addr, global.Config.Storage.ProjectDir)
+	default:
+		return nil, util.ErrIllegalInput
 	}
-	addr = strings.Replace(addr, `\`, `/`, -1)
-	if strings.Contains(addr, "https://") {
-		addr = strings.TrimPrefix(addr, "https://")
-		addr = strings.TrimSuffix(addr, ".git")
-	}
+
 	var p Project
 	infos := strings.Split(addr, "/")
 	switch len(infos) {
+	case 0:
+		return nil, util.ErrIllegalInput
 	case 1:
 		if global.Config.Default.Username == "" {
 			return nil, util.ErrEmptyDefaultUsername
@@ -41,15 +60,23 @@ func CompleteAddrToProject(addr string) (*Project, error) {
 		p.GitSite = global.Config.Default.GitSite
 		p.Username = infos[0]
 		p.Repo = infos[1]
+	default:
+		p.SubDir = path.Join(infos[3:]...)
+		fallthrough
 	case 3:
 		p.GitSite = infos[0]
 		p.Username = infos[1]
 		p.Repo = infos[2]
-	default:
-		return nil, util.ErrIllegalInput
 	}
 
-	p.Dir = file.JoinPath(global.Config.Storage.ProjectDir, p.GitSite, p.Username)
-	p.Path = file.JoinPath(p.Dir, p.Repo)
+	p.Dir = path.Join(global.Config.Storage.ProjectDir, p.GitSite, p.Username)
+	p.Path = path.Join(p.Dir, p.Repo, p.SubDir)
+	pState, err := os.Stat(p.Path)
+	if err != nil {
+		return nil, err
+	}
+	if !pState.IsDir() {
+		return nil, util.ErrProjectMustDir
+	}
 	return &p, nil
 }

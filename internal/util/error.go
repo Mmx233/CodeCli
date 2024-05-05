@@ -7,11 +7,12 @@ type ErrUnsupportedProjectOrEmptyDir struct {
 }
 
 func (a ErrUnsupportedProjectOrEmptyDir) Error() string {
-	return "error unsupported project or empty project dir " + a.Path
+	return "error unsupported project or empty project: " + a.Path
 }
 
 var (
 	ErrEmptyDefaultGitSite  = errors.New("error empty default gitSite config")
 	ErrEmptyDefaultUsername = errors.New("error empty default username config")
 	ErrIllegalInput         = errors.New("error illegal input")
+	ErrProjectMustDir       = errors.New("error target path not a dir")
 )

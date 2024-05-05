@@ -2,9 +2,13 @@ package file
 
 import (
 	"os"
+	"strings"
 )
 
-var JoinPath func(el ...string) string
+func PreparePath(p string) string {
+	p = strings.Replace(p, `\`, `/`, -1)
+	return p
+}
 
 func ScanDir(path string, f func(path string, info os.FileInfo) error) error {
 	entries, err := os.ReadDir(path)

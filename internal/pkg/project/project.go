@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/Mmx233/CodeCli/internal/global"
 	"github.com/Mmx233/CodeCli/pkg/idea"
+	log "github.com/sirupsen/logrus"
 )
 
 func Open(addr string) error {
@@ -11,19 +12,24 @@ func Open(addr string) error {
 	if err != nil {
 		return err
 	}
-	return OpenProject(project.Path)
+	ideaName, err := OpenProject(project.Path)
+	if err != nil {
+		return err
+	}
+	log.Infof("Opened %s via %s", project.Path, ideaName)
+	return nil
 }
 
-func OpenProject(path string) error {
+func OpenProject(path string) (string, error) {
 	var ideaName = global.Commands.Project.Idea
 	if ideaName == "" {
 		var err error
 		ideaName, err = IdeaSelect(path)
 		if err != nil {
-			return err
+			return "", err
 		}
 	}
-	return idea.Open(ideaName, path)
+	return ideaName, idea.Open(ideaName, path)
 }
 
 func OpenCmd(addr string) error {

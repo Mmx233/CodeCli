@@ -46,7 +46,9 @@ Using `default.gitSite=github.com` `default.username=Mmx233` as an example.
 ### Open project
 
 ```shell
-code # open idea for current directory
+# open idea for current directory
+code
+code .
 
 code github.com/Mmx233/CodeCli # open the specified project
 # commands with similar functionality
@@ -55,6 +57,15 @@ code Mmx233/CodeCli
 code CodeCli
 
 code CodeCli --idea webstorm # specify to open the project with WebStorm
+
+# open with relative path
+code ..
+code ./some_dir
+code ../some_dir
+
+# open sub dir as sub project
+code github.com/Mmx233/CodeCli/sub_dir
+code github.com/Mmx233/CodeCli/sub_dir/another_subdir
 ```
 
 ### Clear projects

@@ -64,6 +64,7 @@ code ./some_dir
 code ../some_dir
 
 # open sub dir as sub project
+# sub project only work on full addr
 code github.com/Mmx233/CodeCli/sub_dir
 code github.com/Mmx233/CodeCli/sub_dir/another_subdir
 ```

@@ -18,6 +18,7 @@ func CompleteAddrToProject(addr string) (*Project, error) {
 		addr = file.PreparePath(addr)
 	}
 
+	// addr proceed to site/username/repo/sub
 	switch {
 	case strings.HasPrefix(addr, "http://"):
 		addr = strings.TrimPrefix(addr, "http://")
@@ -39,10 +40,9 @@ func CompleteAddrToProject(addr string) (*Project, error) {
 			return nil, errors.New("target path out of project root")
 		}
 		addr = strings.TrimPrefix(addr, global.Config.Storage.ProjectDir)
-	default:
-		return nil, util.ErrIllegalInput
 	}
 
+	// addr split and complete
 	var p Project
 	infos := strings.Split(addr, "/")
 	switch len(infos) {

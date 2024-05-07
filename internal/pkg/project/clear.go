@@ -57,15 +57,15 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 		//scan uncommitted repos
 		var projectPure []string
 		var isClean bool
-		for _, path := range projectPaths {
-			isClean, err = IsRepoClean(path)
+		for _, projectPath := range projectPaths {
+			isClean, err = IsRepoClean(projectPath)
 			if err != nil {
-				log.Warnf("%s isn't a git repo: %v.", path, err)
+				log.Warnf("%s isn't a git repo: %v.", projectPath, err)
 				continue
 			} else if !isClean {
-				log.Warnf("%s should be cleared, but there are local changes.", path)
+				log.Warnf("%s should be cleared, but there are local changes.", projectPath)
 			} else {
-				projectPure = append(projectPure, path)
+				projectPure = append(projectPure, projectPath)
 			}
 		}
 		projectPaths = projectPure

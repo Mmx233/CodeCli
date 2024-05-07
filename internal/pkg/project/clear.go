@@ -16,6 +16,8 @@ func dirShouldScan(file os.FileInfo) bool {
 }
 
 func Clear(t time.Duration, yes, force bool, addresses ...string) error {
+	logger := log.WithField("component", "clear")
+
 	var projectPaths []string
 	var err error
 	if len(addresses) != 0 {
@@ -23,7 +25,7 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 			var project *Project
 			project, err = CompleteAddrToProject(addr)
 			if err != nil {
-				log.Warnf("warning: addr %s occur error: %v\n", addr, err)
+				logger.Warnf("addr %s occur error: %v", addr, err)
 				continue
 			}
 			projectPaths = append(projectPaths, project.Path)
@@ -60,10 +62,10 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 		for _, projectPath := range projectPaths {
 			isClean, err = IsRepoClean(projectPath)
 			if err != nil {
-				log.Warnf("%s isn't a git repo: %v.", projectPath, err)
+				logger.Warnf("%s isn't a git repo: %v.", projectPath, err)
 				continue
 			} else if !isClean {
-				log.Warnf("%s should be cleared, but there are local changes.", projectPath)
+				logger.Warnf("%s should be cleared, but there are local changes.", projectPath)
 			} else {
 				projectPure = append(projectPure, projectPath)
 			}
@@ -71,7 +73,7 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 		projectPaths = projectPure
 	}
 	if len(projectPaths) != 0 {
-		log.Infoln("following projects is going to be cleared.")
+		logger.Infoln("following projects is going to be cleared.")
 		fmt.Println(strings.Join(projectPaths, "\n"))
 
 		if !yes && !force {
@@ -85,14 +87,14 @@ func Clear(t time.Duration, yes, force bool, addresses ...string) error {
 			}
 		}
 
-		for _, path := range projectPaths {
-			if err = os.RemoveAll(path); err != nil {
-				log.Printf("warning: remove project %s failed: %v", path, err)
+		for _, projectPath := range projectPaths {
+			if err = os.RemoveAll(projectPath); err != nil {
+				logger.Warnf("remove project %s failed: %v", projectPath, err)
 			}
 		}
-		log.Infoln("clean task completed.")
+		logger.Infoln("clean task completed.")
 	} else {
-		log.Infoln("no project to clear.")
+		logger.Infoln("no project to clear.")
 	}
 	return nil
 }

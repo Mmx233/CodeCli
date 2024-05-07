@@ -15,9 +15,10 @@ var ConfigLoader *config.Config
 var Config models.Config
 
 func init() {
+	logger := log.WithField("component", "config")
 	home, err := homedir.Dir()
 	if err != nil {
-		log.Fatalln(err)
+		logger.Fatalln(err)
 	}
 	home = file.PreparePath(home)
 	ConfigLoader = config.NewConfig(&config.Options{
@@ -61,15 +62,15 @@ func init() {
 	})
 	if err = ConfigLoader.Load(); err != nil {
 		if errors.Is(err, config.IsNewConfig) {
-			log.Infoln(err.Error())
+			logger.Infoln(err.Error())
 			os.Exit(0)
 		} else {
-			log.Fatalln(err)
+			logger.Fatalln(err)
 		}
 	}
 
 	if len(Config.Rules) == 0 {
-		log.Warnln("no match rule found")
+		logger.Warnln("no match rule found")
 	}
 	Config.Storage.ProjectDir = file.PreparePath(path.Clean(Config.Storage.ProjectDir))
 }

@@ -16,7 +16,7 @@ func Open(addr string) error {
 	if err != nil {
 		return err
 	}
-	log.Infof("Opened %s via %s", project.Path, ideaName)
+	log.WithField("idea", ideaName).Infof("opened %s", project.Path)
 	return nil
 }
 

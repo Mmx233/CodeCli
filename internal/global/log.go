@@ -6,5 +6,8 @@ import (
 )
 
 func init() {
-	log.SetFormatter(&nested.Formatter{})
+	log.SetFormatter(&nested.Formatter{
+		NoUppercaseLevel: true,
+		HideKeys:         true,
+	})
 }

@@ -77,9 +77,10 @@ func CompleteAddrToProject(addr string) (*Project, error) {
 	p.Path = path.Join(p.Dir, p.Repo, p.SubDir)
 	pState, err := os.Stat(p.Path)
 	if err != nil {
-		return nil, err
-	}
-	if !pState.IsDir() {
+		if !os.IsNotExist(err) {
+			return nil, err
+		}
+	} else if !pState.IsDir() {
 		return nil, util.ErrProjectMustDir
 	}
 	return &p, nil

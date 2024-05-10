@@ -1,6 +1,11 @@
 package idea
 
-import "os/exec"
+import (
+	"golang.org/x/sys/windows"
+	"os/exec"
+	"strings"
+	"syscall"
+)
 
 func init() {
 	Exec = windowsExec{}
@@ -26,19 +31,29 @@ func (a windowsExec) Command(name string, args ...string) error {
 	cmd.Dir = a.dir
 	return cmd.Run()
 }
-func (a windowsExec) Background(name string, args ...string) error {
-	var argList = []string{
-		"-WindowStyle", "Hidden", "-NoProfile", "-Command", "Start-Process",
-		name,
-	}
+
+func (a windowsExec) CreateProcess(name string, args ...string) error {
+	program := name
 	if len(args) != 0 {
-		argList = append(argList, "-ArgumentList")
-		argList = append(argList, args...)
+		program += " " + strings.Join(args, " ")
 	}
-	argList = append(argList, "-WindowStyle", "Hidden")
-	cmd := exec.Command("powershell", argList...)
-	cmd.Dir = a.dir
-	return cmd.Start()
+	program = strings.Replace(program, `/`, `\\`, -1)
+
+	var workdir *uint16
+	if a.dir != "" {
+		workdir = windows.StringToUTF16Ptr(strings.Replace(a.dir, `/`, `\\`, -1))
+	}
+
+	var procInfo syscall.ProcessInformation
+	startupInfo := &syscall.StartupInfo{
+		StdErr:    syscall.Stderr,
+		StdOutput: syscall.Stdout,
+		StdInput:  syscall.Stdin,
+	}
+	return syscall.CreateProcess(
+		nil, windows.StringToUTF16Ptr(program),
+		nil, nil, false, 0, nil,
+		workdir, startupInfo, &procInfo)
 }
 func (a windowsExec) SetDir(dir string) ExecInterface {
 	return windowsExec{dir: dir}

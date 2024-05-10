@@ -3,7 +3,7 @@ package idea
 type (
 	ExecInterface interface {
 		Command(name string, args ...string) error
-		Background(name string, args ...string) error
+		CreateProcess(name string, args ...string) error
 		SetDir(dir string) ExecInterface
 	}
 )
@@ -16,7 +16,7 @@ var (
 )
 
 func Open(idea, projectPath string) error {
-	return Exec.Background(ideaCommand(idea), projectPath)
+	return Exec.CreateProcess(ideaCommand(idea), projectPath)
 }
 
 func RunCmd(path, program string) error {

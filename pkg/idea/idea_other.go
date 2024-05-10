@@ -17,7 +17,7 @@ func (a defaultExec) Command(name string, args ...string) error {
 	cmd.Dir = a.dir
 	return cmd.Run()
 }
-func (a defaultExec) Background(name string, args ...string) error {
+func (a defaultExec) CreateProcess(name string, args ...string) error {
 	cmd := exec.Command(name, args...)
 	cmd.Dir = a.dir
 	return cmd.Run()

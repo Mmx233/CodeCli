@@ -1,8 +1,10 @@
 package browser
 
 import (
+	"fmt"
 	"github.com/Mmx233/CodeCli/internal/pkg/project"
 	"os/exec"
+	"runtime"
 )
 
 func Open(addr string) error {
@@ -10,14 +12,18 @@ func Open(addr string) error {
 	if err != nil {
 		return err
 	}
-	return OpenExplorer(p.Url())
+	return OpenBrowser(p.Url())
 }
 
-func OpenExplorer(path string) error {
-	cmd := exec.Command("explorer", path)
-	if err := cmd.Start(); err != nil {
-		return err
+func OpenBrowser(url string) error {
+	switch runtime.GOOS {
+	case "linux":
+		return exec.Command("xdg-open", url).Start()
+	case "windows":
+		return exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+	case "darwin":
+		return exec.Command("open", url).Start()
+	default:
+		return fmt.Errorf("unsupported platform")
 	}
-	_ = cmd.Wait()
-	return nil
 }

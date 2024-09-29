@@ -2,7 +2,9 @@
 
 package idea
 
-import "os/exec"
+import (
+	"os/exec"
+)
 
 func init() {
 	Exec = defaultExec{}
@@ -13,15 +15,15 @@ type defaultExec struct {
 }
 
 func (a defaultExec) Command(name string, args ...string) error {
-	cmd := exec.Command(name, args...)
-	cmd.Dir = a.dir
-	return cmd.Run()
+	return a.CreateProcess(name, args...)
 }
+
 func (a defaultExec) CreateProcess(name string, args ...string) error {
-	cmd := exec.Command(name, args...)
+	cmd := exec.Command("nohup", append([]string{name}, args...)...)
 	cmd.Dir = a.dir
-	return cmd.Run()
+	return cmd.Start()
 }
+
 func (a defaultExec) SetDir(dir string) ExecInterface {
 	return defaultExec{dir: dir}
 }

@@ -9,6 +9,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"os"
 	"path"
+	"runtime"
 )
 
 var ConfigLoader *config.Config
@@ -20,45 +21,54 @@ func init() {
 	if err != nil {
 		logger.Fatalln(err)
 	}
-	home = file.PreparePath(home)
-	ConfigLoader = config.NewConfig(&config.Options{
-		Path:   path.Join(home, ".CodeCli.yaml"),
-		Config: &Config,
-		Default: &models.Config{
-			Default: models.Default{
-				GitSite:    "github.com",
-				CmdProgram: "powershell",
+
+	defaultConfig := models.Config{
+		Default: models.Default{
+			GitSite: "github.com",
+		},
+		Storage: models.Storage{
+			ProjectDir: path.Join(home, "project"),
+		},
+		Rules: []models.IdeaRule{
+			{
+				Idea: "webstorm",
+				File: []string{"package.json"},
 			},
-			Storage: models.Storage{
-				ProjectDir: path.Join(home, "project"),
+			{
+				Idea: "goland",
+				File: []string{"go.mod"},
 			},
-			Rules: []models.IdeaRule{
-				{
-					Idea: "webstorm",
-					File: []string{"package.json"},
-				},
-				{
-					Idea: "goland",
-					File: []string{"go.mod"},
-				},
-				{
-					Idea: "rustrover",
-					File: []string{"Cargo.toml"},
-				},
-				{
-					Idea: "pycharm",
-					File: []string{"pyproject.toml", "requirements.txt"},
-				},
-				{
-					Idea: "studio",
-					File: []string{path.Join("android", "build.gradle"), "build.gradle"},
-				},
-				{
-					Idea: "idea",
-					File: []string{"gradlew"},
-				},
+			{
+				Idea: "rustrover",
+				File: []string{"Cargo.toml"},
+			},
+			{
+				Idea: "pycharm",
+				File: []string{"pyproject.toml", "requirements.txt"},
+			},
+			{
+				Idea: "studio",
+				File: []string{path.Join("android", "build.gradle"), "build.gradle"},
+			},
+			{
+				Idea: "idea",
+				File: []string{"gradlew"},
 			},
 		},
+	}
+
+	switch runtime.GOOS {
+	case "windows":
+		defaultConfig.Default.CmdProgram = "powershell"
+	case "linux":
+		defaultConfig.Default.CmdProgram = "gnome-terminal"
+	}
+
+	home = file.PreparePath(home)
+	ConfigLoader = config.NewConfig(&config.Options{
+		Path:    path.Join(home, ".CodeCli.yaml"),
+		Config:  &Config,
+		Default: &defaultConfig,
 	})
 	if err = ConfigLoader.Load(); err != nil {
 		if errors.Is(err, config.IsNewConfig) {

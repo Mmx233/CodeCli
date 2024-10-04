@@ -17,7 +17,7 @@ type windowsExec struct {
 	dir string
 }
 
-func (a windowsExec) Command(name string, args ...string) error {
+func (a windowsExec) NewWindowCommand(name string, args ...string) error {
 	cmd := exec.Command(name, args...)
 	cmd.Dir = a.dir
 	cmd.SysProcAttr = &syscall.SysProcAttr{

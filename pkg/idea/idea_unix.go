@@ -14,7 +14,7 @@ type defaultExec struct {
 	dir string
 }
 
-func (a defaultExec) Command(name string, args ...string) error {
+func (a defaultExec) NewWindowCommand(name string, args ...string) error {
 	return a.CreateProcess(name, args...)
 }
 

@@ -2,7 +2,7 @@ package idea
 
 type (
 	ExecInterface interface {
-		Command(name string, args ...string) error
+		NewWindowCommand(name string, args ...string) error
 		CreateProcess(name string, args ...string) error
 		SetDir(dir string) ExecInterface
 	}
@@ -20,5 +20,5 @@ func Open(idea, projectPath string) error {
 }
 
 func RunCmd(path, program string) error {
-	return Exec.SetDir(path).Command(program)
+	return Exec.SetDir(path).NewWindowCommand(program)
 }

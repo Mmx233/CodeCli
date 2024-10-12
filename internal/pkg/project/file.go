@@ -37,7 +37,7 @@ func LoadProject(addr string) (*Project, error) {
 		return nil, err
 	}
 
-	if err = os.MkdirAll(project.Dir, 0600); err != nil {
+	if err = os.MkdirAll(project.Dir, 0775); err != nil {
 		return nil, err
 	}
 

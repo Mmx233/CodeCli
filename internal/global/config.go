@@ -2,14 +2,15 @@ package global
 
 import (
 	"errors"
+	"os"
+	"path"
+	"runtime"
+
 	"github.com/Mmx233/CodeCli/internal/global/models"
 	"github.com/Mmx233/CodeCli/pkg/file"
 	"github.com/Mmx233/config"
 	"github.com/mitchellh/go-homedir"
 	log "github.com/sirupsen/logrus"
-	"os"
-	"path"
-	"runtime"
 )
 
 var ConfigLoader *config.Config
@@ -74,9 +75,8 @@ func init() {
 		if errors.Is(err, config.IsNewConfig) {
 			logger.Infoln(err.Error())
 			os.Exit(0)
-		} else {
-			logger.Fatalln(err)
 		}
+		logger.Fatalln(err)
 	}
 
 	if len(Config.Rules) == 0 {

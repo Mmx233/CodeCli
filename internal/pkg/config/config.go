@@ -2,11 +2,12 @@ package config
 
 import (
 	"fmt"
+	"reflect"
+	"strings"
+
 	"github.com/Mmx233/CodeCli/internal/global"
 	"github.com/Mmx233/CodeCli/internal/util"
 	"gopkg.in/yaml.v3"
-	"reflect"
-	"strings"
 )
 
 func List() error {

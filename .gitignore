@@ -2,4 +2,5 @@
 /*.yaml
 /*.zip
 /build
-/main*
+/code
+/code.exe

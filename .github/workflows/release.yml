@@ -1,0 +1,45 @@
+name: Release Draft
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Setup Release Cli
+        uses: robinraju/release-downloader@v1.12
+        with:
+          repository: Mmx233/GoReleaseCli
+          latest: true
+          fileName: release_linux_amd64.tar.gz
+          extract: true
+          out-file-path: ./build/
+
+      - name: Setup Go
+        uses: actions/setup-go@v7.0.0
+        with:
+          go-version-file: go.mod
+
+      - name: Build
+        env:
+          NAME: code
+          LDFLAGS: -X main.Version=${{ github.ref_name }}
+        run: |
+          ./build/release . --os darwin,linux,windows --arch amd64,arm64 \
+            --output build/output --name "$NAME" --ldflags="$LDFLAGS" -c tar.gz
+
+      - name: Upload Release Draft
+        uses: softprops/action-gh-release@v3
+        with:
+          draft: true
+          fail_on_unmatched_files: true
+          files: build/output/*.tar.gz
